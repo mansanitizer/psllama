@@ -1,0 +1,18 @@
+{
+ "label": "C perf logger",
+ "env": {
+  "GGML_VK_PERF_LOGGER": 1,
+  "GGML_VK_PERF_LOGGER_FREQUENCY": 32
+ },
+ "models": [
+  {
+   "model": "Qwen3-4B-Q4_K_M.gguf"
+  },
+  {
+   "model": "gemma-3-27b-it-UD-IQ2_XXS.gguf"
+  }
+ ],
+ "variants": [
+  "greedy"
+ ]
+}

@@ -1,0 +1,17 @@
+{
+ "label": "dmmv S0-base",
+ "env": {},
+ "models": [
+  {
+   "model": "startup"
+  },
+  {
+   "model": "gemma-3-27b-it-UD-IQ2_XXS.gguf"
+  }
+ ],
+ "variants": [
+  "greedy"
+ ],
+ "rounds": 2,
+ "deploy": "dmmv-tune-20261009"
+}

@@ -1,0 +1,77 @@
+#version 450
+
+// State-space scan for Mamba-1: every channel has its own vector of decay
+// rates A (Mamba-2, in ssm_scan.comp, has one scalar per head). One
+// invocation owns one channel and walks the tokens in order.
+
+#include "types.glsl"
+
+layout(constant_id = 0) const uint D_STATE = 16;
+
+layout(local_size_x = 64, local_size_y = 1, local_size_z = 1) in;
+
+layout(binding = 0) readonly buffer Src0 { float s0[]; };
+layout(binding = 1) readonly buffer Src1 { float x[]; };
+layout(binding = 2) readonly buffer Src2 { float dt[]; };
+layout(binding = 3) readonly buffer Src3 { float A[]; };
+layout(binding = 4) readonly buffer Src4 { float B[]; };
+layout(binding = 5) readonly buffer Src5 { float C[]; };
+layout(binding = 6) readonly buffer Src6 { int ids[]; };
+layout(binding = 7) buffer Dst { float d[]; };
+
+layout(push_constant) uniform PushConstants {
+    uint nb02; uint nb03; uint nb12; uint nb13;
+    uint nb21; uint nb22; uint nb31;
+    uint nb42; uint nb43; uint nb52; uint nb53;
+    uint s_off;
+    uint n_head;
+    uint d_head;
+    uint n_group;
+    uint n_tok;
+    uint n_seq;
+    uint K;
+};
+
+float softplus(float v) {
+    if (v <= 20.0) {
+        return log(1.0 + exp(v));
+    } else {
+        return v;
+    }
+}
+
+void main() {
+    const uint h   = gl_GlobalInvocationID.x;   // channel
+    const uint seq = gl_GlobalInvocationID.y;
+    if (h >= n_head) {
+        return;
+    }
+
+    const uint s0_base = (uint(ids[seq]) * nb03 + h * nb02) / 4;
+    const uint s_base  = (s_off + seq * nb03 + h * nb02) / 4;
+    const uint A_base  = (h * nb31) / 4;
+
+    float state[D_STATE];
+    for (uint n = 0; n < D_STATE; n++) {
+        state[n] = s0[s0_base + n];
+    }
+
+    for (uint t = 0; t < n_tok; t++) {
+        const float dt_soft_plus = softplus(dt[(seq * nb22 + t * nb21) / 4 + h]);
+        const float x_dt = x[(seq * nb13 + t * nb12) / 4 + h] * dt_soft_plus;
+        const uint B_base = (seq * nb43 + t * nb42) / 4;
+        const uint C_base = (seq * nb53 + t * nb52) / 4;
+
+        float sum = 0.0;
+        for (uint n = 0; n < D_STATE; n++) {
+            const float s = state[n] * exp(dt_soft_plus * A[A_base + n]) + B[B_base + n] * x_dt;
+            sum += s * C[C_base + n];
+            state[n] = s;
+        }
+        d[(seq * n_tok + t) * n_head + h] = sum;
+    }
+
+    for (uint n = 0; n < D_STATE; n++) {
+        d[s_base + n] = state[n];
+    }
+}

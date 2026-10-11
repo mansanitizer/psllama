@@ -1,0 +1,1330 @@
+[
+ {
+  "seed": 0,
+  "layout": {
+   "left": "blue",
+   "middle": "red",
+   "right": "green"
+  },
+  "task": "Put the block that is neither blue nor green on the plate.",
+  "commands": [
+   "pick middle -> holding a block",
+   "place plate -> released",
+   "pick right -> holding a block",
+   "pick right -> already holding a block",
+   "pick right -> already holding a block",
+   "pick right -> already holding a block",
+   "pick right -> already holding a block"
+  ],
+  "success": true,
+  "declared_done": false,
+  "think_s": [
+   7.01,
+   6.91,
+   7.31,
+   7.73,
+   7.76,
+   7.96,
+   7.98
+  ],
+  "final_scene": {
+   "left": "blue",
+   "middle": "empty",
+   "right": "empty",
+   "plate": "red",
+   "gripper": "green"
+  },
+  "trace": [
+   {
+    "truth": {
+     "left": "blue",
+     "middle": "red",
+     "right": "green",
+     "plate": "empty",
+     "gripper": "empty"
+    },
+    "scene": "1.  The left pad has a blue cube, the middle pad has a red cube, and the right pad has a green cube. 2.  There is one yellow cube sitting on the round yellow plate. 3.  The robot gripper is not holding a cube.",
+    "reply": "Left to do: Put the red cube on the plate.\nCommand: pick middle"
+   },
+   {
+    "truth": {
+     "left": "blue",
+     "middle": "empty",
+     "right": "green",
+     "plate": "empty",
+     "gripper": "red"
+    },
+    "scene": "1.  The left pad has a blue cube, the middle pad is empty, and the right pad has a green cube. 2.  There is one yellow cube sitting on the round yellow plate. 3.  The robot gripper is holding a red cube.",
+    "reply": "Left to do: Put the red cube on the plate.\nCommand: place plate"
+   },
+   {
+    "truth": {
+     "left": "blue",
+     "middle": "empty",
+     "right": "green",
+     "plate": "red",
+     "gripper": "empty"
+    },
+    "scene": "1.  The left pad has a blue cube, the middle pad is empty, and the right pad has a green cube. 2.  Yes, there are cubes on the yellow plate; the bottom cube is red and the top cube is also red. 3.  The robot gripper is not holding a cube.",
+    "reply": "Left to do: Put the red cube on the plate.\nCommand: pick right"
+   },
+   {
+    "truth": {
+     "left": "blue",
+     "middle": "empty",
+     "right": "empty",
+     "plate": "red",
+     "gripper": "green"
+    },
+    "scene": "1.  The left pad has a blue cube, the middle pad is empty, and the right pad has a grey cube. 2.  Yes, there are cubes on the round yellow plate: a red cube at the bottom and a grey cube on top. 3.  The robot gripper is holding a green cube.",
+    "reply": "Left to do: Put the grey cube on the plate.\nCommand: pick right"
+   },
+   {
+    "truth": {
+     "left": "blue",
+     "middle": "empty",
+     "right": "empty",
+     "plate": "red",
+     "gripper": "green"
+    },
+    "scene": "1.  The left pad has a blue cube, the middle pad is empty, and the right pad has a grey cube. 2.  Yes, there are cubes on the round yellow plate: a red cube at the bottom and a grey cube on top. 3.  The robot gripper is holding a green cube.",
+    "reply": "Left to do: Put the grey cube on the plate.\nCommand: pick right"
+   },
+   {
+    "truth": {
+     "left": "blue",
+     "middle": "empty",
+     "right": "empty",
+     "plate": "red",
+     "gripper": "green"
+    },
+    "scene": "1.  The left pad has a blue cube, the middle pad is empty, and the right pad has a grey cube. 2.  Yes, there are cubes on the round yellow plate: a red cube at the bottom and a grey cube on top. 3.  The robot gripper is holding a green cube.",
+    "reply": "Left to do: Put the grey cube on the plate.\nCommand: pick right"
+   },
+   {
+    "truth": {
+     "left": "blue",
+     "middle": "empty",
+     "right": "empty",
+     "plate": "red",
+     "gripper": "green"
+    },
+    "scene": "1.  The left pad has a blue cube, the middle pad is empty, and the right pad has a grey cube. 2.  Yes, there are cubes on the round yellow plate: a red cube at the bottom and a grey cube on top. 3.  The robot gripper is holding a green cube.",
+    "reply": "Left to do: Put the grey cube on the plate.\nCommand: pick right"
+   }
+  ]
+ },
+ {
+  "seed": 1,
+  "layout": {
+   "left": "red",
+   "middle": "green",
+   "right": "blue"
+  },
+  "task": "Put the blue block on the plate, then stack the green block on top of it.",
+  "commands": [
+   "pick right -> holding a block",
+   "place right -> released",
+   "pick right -> holding a block",
+   "place plate -> released",
+   "pick middle -> holding a block",
+   "place middle -> released",
+   "pick middle -> holding a block"
+  ],
+  "success": false,
+  "declared_done": false,
+  "think_s": [
+   7.57,
+   7.14,
+   7.28,
+   7.27,
+   7.34,
+   7.55,
+   7.54
+  ],
+  "final_scene": {
+   "left": "red",
+   "middle": "empty",
+   "right": "empty",
+   "plate": "blue",
+   "gripper": "green"
+  },
+  "trace": [
+   {
+    "truth": {
+     "left": "red",
+     "middle": "green",
+     "right": "blue",
+     "plate": "empty",
+     "gripper": "empty"
+    },
+    "scene": "1.  The left pad has a red cube, the middle pad has a green cube, and the right pad has a blue cube. 2.  There are no cubes sitting on the round yellow plate. 3.  The robot gripper is not holding a cube.",
+    "reply": "Left to do: Put the blue block on the plate, then stack the green block on top of it.\nCommand: pick right"
+   },
+   {
+    "truth": {
+     "left": "red",
+     "middle": "green",
+     "right": "empty",
+     "plate": "empty",
+     "gripper": "blue"
+    },
+    "scene": "1.  The left pad has a red cube, the middle pad has a green cube, and the right pad is empty. 2.  There is one yellow cube sitting on the round yellow plate. 3.  The robot gripper is holding a red cube.",
+    "reply": "Left to do: Put the blue block on the plate, then stack the green block on top of it.\nCommand: place right"
+   },
+   {
+    "truth": {
+     "left": "red",
+     "middle": "green",
+     "right": "blue",
+     "plate": "empty",
+     "gripper": "empty"
+    },
+    "scene": "1.  The left pad has a red cube, the middle pad has a green cube, and the right pad has a blue cube. 2.  There are no cubes sitting on the round yellow plate. 3.  The robot gripper is not holding a cube.",
+    "reply": "Left to do: Put the blue block on the plate, then stack the green block on top of it.\nCommand: pick right"
+   },
+   {
+    "truth": {
+     "left": "red",
+     "middle": "green",
+     "right": "empty",
+     "plate": "empty",
+     "gripper": "blue"
+    },
+    "scene": "1.  The left pad has a red cube, the middle pad has a green cube, and the right pad is empty. 2.  There is one yellow cube sitting on the round yellow plate. 3.  The robot gripper is holding a blue cube.",
+    "reply": "Left to do: Put the blue block on the plate, then stack the green block on top of it.\nCommand: place plate"
+   },
+   {
+    "truth": {
+     "left": "red",
+     "middle": "green",
+     "right": "empty",
+     "plate": "blue",
+     "gripper": "empty"
+    },
+    "scene": "1.  The left pad has a red cube, the middle pad has a green cube, and the right pad is empty. 2.  Yes, there is a blue cube sitting on the round yellow plate. 3.  The robot gripper is not holding a cube.",
+    "reply": "Left to do: put the blue block on the plate, then stack the green block on top of it.\nCommand: pick middle"
+   },
+   {
+    "truth": {
+     "left": "red",
+     "middle": "empty",
+     "right": "empty",
+     "plate": "blue",
+     "gripper": "green"
+    },
+    "scene": "1.  The left pad has a red cube, the middle pad is empty, and the right pad has a grey cube. 2.  Yes, there is a cube on the round yellow plate; it is blue. 3.  The robot gripper is holding a green cube.",
+    "reply": "Left to do: put the blue block on the plate, then stack the green block on top of it.\nCommand: place middle"
+   },
+   {
+    "truth": {
+     "left": "red",
+     "middle": "green",
+     "right": "empty",
+     "plate": "blue",
+     "gripper": "empty"
+    },
+    "scene": "1.  The left pad has a red cube, the middle pad has a green cube, and the right pad is empty. 2.  Yes, there is a blue cube sitting on the round yellow plate. 3.  The robot gripper is not holding a cube.",
+    "reply": "Left to do: put the blue block on the plate, then stack the green block on top of it.\nCommand: pick middle"
+   }
+  ]
+ },
+ {
+  "seed": 2,
+  "layout": {
+   "left": "blue",
+   "middle": "red",
+   "right": "green"
+  },
+  "task": "Put the red block on the plate, then stack the blue block on top of it.",
+  "commands": [
+   "pick middle -> holding a block",
+   "place plate -> released",
+   "pick left -> holding a block",
+   "place left -> released",
+   "pick right -> holding a block",
+   "pick right -> already holding a block",
+   "pick plate -> already holding a block"
+  ],
+  "success": false,
+  "declared_done": false,
+  "think_s": [
+   7.21,
+   7.08,
+   7.35,
+   7.07,
+   7.78,
+   8.35,
+   8.38
+  ],
+  "final_scene": {
+   "left": "blue",
+   "middle": "empty",
+   "right": "empty",
+   "plate": "red",
+   "gripper": "green"
+  },
+  "trace": [
+   {
+    "truth": {
+     "left": "blue",
+     "middle": "red",
+     "right": "green",
+     "plate": "empty",
+     "gripper": "empty"
+    },
+    "scene": "1.  The left pad has a blue cube, the middle pad has a red cube, and the right pad has a green cube. 2.  There is one yellow cube sitting on the round yellow plate. 3.  The robot gripper is not holding a cube.",
+    "reply": "Left to do: Put the red block on the plate, then stack the blue block on top of it.\nCommand: pick middle"
+   },
+   {
+    "truth": {
+     "left": "blue",
+     "middle": "empty",
+     "right": "green",
+     "plate": "empty",
+     "gripper": "red"
+    },
+    "scene": "1.  The left pad has a blue cube, the middle pad is empty, and the right pad has a green cube. 2.  There is one yellow cube sitting on the round yellow plate. 3.  The robot gripper is holding a red cube.",
+    "reply": "Left to do: place red on plate, pick blue, place blue on red, done\nCommand: place plate"
+   },
+   {
+    "truth": {
+     "left": "blue",
+     "middle": "empty",
+     "right": "green",
+     "plate": "red",
+     "gripper": "empty"
+    },
+    "scene": "1.  The left pad has a blue cube, the middle pad is empty, and the right pad has a green cube. 2.  Yes, there are cubes on the yellow plate; the bottom cube is red and the top cube is also red. 3.  The robot gripper is not holding a cube.",
+    "reply": "Left to do: Put the blue block on the plate.\nCommand: pick left"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "empty",
+     "right": "green",
+     "plate": "red",
+     "gripper": "blue"
+    },
+    "scene": "1.  The left and middle pads are empty, while the right pad has a green cube on it. 2.  Yes, there are cubes on the round yellow plate; a red cube is at the bottom and a yellow cube is on top of it. 3.  The robot gripper is holding a blue cube.",
+    "reply": "Left to do: place left\nCommand: place left"
+   },
+   {
+    "truth": {
+     "left": "blue",
+     "middle": "empty",
+     "right": "green",
+     "plate": "red",
+     "gripper": "empty"
+    },
+    "scene": "1.  The left pad has a blue cube, the middle pad is empty, and the right pad has a green cube. 2.  Yes, there are cubes on the yellow plate: a red cube at the bottom and a grey cube on top. 3.  The robot gripper is not holding a cube.",
+    "reply": "Left to do: put the red block on the plate, then stack the blue block on top of it.\nCommand: pick right"
+   },
+   {
+    "truth": {
+     "left": "blue",
+     "middle": "empty",
+     "right": "empty",
+     "plate": "red",
+     "gripper": "green"
+    },
+    "scene": "1.  The left pad has a blue cube, the middle pad is empty, and the right pad has a grey cube. 2.  Yes, there are cubes on the round yellow plate: a red cube at the bottom and a grey cube on top. 3.  The robot gripper at the top of the image is not holding a cube.",
+    "reply": "Left to do: put the red block on the plate, then stack the blue block on top of it.\nCommand: pick right"
+   },
+   {
+    "truth": {
+     "left": "blue",
+     "middle": "empty",
+     "right": "empty",
+     "plate": "red",
+     "gripper": "green"
+    },
+    "scene": "1.  The left pad has a blue cube, the middle pad is empty, and the right pad has a grey cube. 2.  Yes, there are cubes on the round yellow plate: a red cube at the bottom and a grey cube on top. 3.  The robot gripper at the top of the image is not holding a cube.",
+    "reply": "Left to do: Put the red block on the plate, then stack the blue block on top of it.\nCommand: pick plate"
+   }
+  ]
+ },
+ {
+  "seed": 3,
+  "layout": {
+   "left": "blue",
+   "middle": "green",
+   "right": "red"
+  },
+  "task": "Put the block that is neither red nor green on the plate.",
+  "commands": [
+   "pick left -> holding a block",
+   "place plate -> released",
+   "pick left -> the gripper closed on nothing",
+   "pick left -> the gripper closed on nothing",
+   "pick left -> the gripper closed on nothing",
+   "pick left -> the gripper closed on nothing",
+   "pick left -> the gripper closed on nothing"
+  ],
+  "success": true,
+  "declared_done": false,
+  "think_s": [
+   7.45,
+   6.97,
+   6.9,
+   7.35,
+   7.8,
+   7.69,
+   7.81
+  ],
+  "final_scene": {
+   "left": "empty",
+   "middle": "green",
+   "right": "red",
+   "plate": "blue",
+   "gripper": "empty"
+  },
+  "trace": [
+   {
+    "truth": {
+     "left": "blue",
+     "middle": "green",
+     "right": "red",
+     "plate": "empty",
+     "gripper": "empty"
+    },
+    "scene": "1.  The left pad has a blue cube, the middle pad has a green cube, and the right pad has a red cube. 2.  There is one yellow cube sitting on the round yellow plate. 3.  The robot gripper is not holding a cube.",
+    "reply": "Left to do: Pick the blue cube and place it on the plate.\nCommand: pick left"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "green",
+     "right": "red",
+     "plate": "empty",
+     "gripper": "blue"
+    },
+    "scene": "1.  The left pad has a grey cube, the middle pad has a green cube, and the right pad has a red cube. 2.  There is one yellow cube sitting on the round yellow plate. 3.  The robot gripper is holding a blue cube.",
+    "reply": "Left to do: Put the grey cube on the plate.\nCommand: place plate"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "green",
+     "right": "red",
+     "plate": "blue",
+     "gripper": "empty"
+    },
+    "scene": "1.  From left to right, the pads have a grey cube, a green cube, and a red cube respectively. 2.  There is one blue cube sitting on the round yellow plate. 3.  The robot gripper is holding a red cube.",
+    "reply": "Left to do: Put the grey cube on the plate.\nCommand: pick left"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "green",
+     "right": "red",
+     "plate": "blue",
+     "gripper": "empty"
+    },
+    "scene": "1.  From left to right, the pads have a white cube, a green cube, and a red cube. 2.  Yes, there are cubes on the round yellow plate; from bottom to top, they are a blue cube and a yellow cube. 3.  The robot gripper is not holding a cube.",
+    "reply": "Left to do: Put the white cube on the plate.\nCommand: pick left"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "green",
+     "right": "red",
+     "plate": "blue",
+     "gripper": "empty"
+    },
+    "scene": "1.  The left pad has a grey cube, the middle pad has a green cube, and the right pad has a red cube. 2.  Yes, there are cubes on the round yellow plate; from bottom to top, they are blue and then a second blue cube. 3.  The robot gripper at the top of the image is not holding a cube.",
+    "reply": "Left to do: Put the grey cube on the plate.\nCommand: pick left"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "green",
+     "right": "red",
+     "plate": "blue",
+     "gripper": "empty"
+    },
+    "scene": "1.  The left pad has a grey cube, the middle pad has a green cube, and the right pad has a red cube. 2.  Yes, there are cubes on the round yellow plate; from bottom to top, they are a blue cube and a yellow cube. 3.  The robot gripper at the top of the image is not holding a cube.",
+    "reply": "Left to do: Put the grey cube on the plate.\nCommand: pick left"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "green",
+     "right": "red",
+     "plate": "blue",
+     "gripper": "empty"
+    },
+    "scene": "1.  The left pad has a grey cube, the middle pad has a green cube, and the right pad has a red cube. 2.  Yes, there are cubes on the round yellow plate; from bottom to top, they are blue and then a second blue cube. 3.  The robot gripper at the top of the image is not holding a cube.",
+    "reply": "Left to do: Put the grey cube on the plate.\nCommand: pick left"
+   }
+  ]
+ },
+ {
+  "seed": 4,
+  "layout": {
+   "left": "red",
+   "middle": "green",
+   "right": "blue"
+  },
+  "task": "Put the red block on the plate.",
+  "commands": [
+   "pick left -> holding a block",
+   "place plate -> released",
+   "done"
+  ],
+  "success": true,
+  "declared_done": true,
+  "think_s": [
+   7.31,
+   6.92,
+   12.28
+  ],
+  "final_scene": {
+   "left": "empty",
+   "middle": "green",
+   "right": "blue",
+   "plate": "red",
+   "gripper": "empty"
+  },
+  "trace": [
+   {
+    "truth": {
+     "left": "red",
+     "middle": "green",
+     "right": "blue",
+     "plate": "empty",
+     "gripper": "empty"
+    },
+    "scene": "1.  The left pad has a red cube, the middle pad has a green cube, and the right pad has a blue cube. 2.  There are no cubes sitting on the round yellow plate. 3.  The robot gripper is not holding a cube.",
+    "reply": "Left to do: Put the red block on the plate.\nCommand: pick left"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "green",
+     "right": "blue",
+     "plate": "empty",
+     "gripper": "red"
+    },
+    "scene": "1.  The left pad has a white cube, the middle pad has a green cube, and the right pad is empty. 2.  There is one yellow cube sitting on the round yellow plate. 3.  The robot gripper is holding a red cube.",
+    "reply": "Left to do: place red on plate, done\nCommand: place plate"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "green",
+     "right": "blue",
+     "plate": "red",
+     "gripper": "empty"
+    },
+    "scene": "1.  From left to right, the pads have a white cube, a green cube, and a blue cube respectively. 2.  There is one red cube sitting on the round yellow plate. 3.  The robot gripper is holding a red cube.",
+    "reply": "Left to do: nothing\nCommand: done"
+   }
+  ]
+ },
+ {
+  "seed": 5,
+  "layout": {
+   "left": "green",
+   "middle": "blue",
+   "right": "red"
+  },
+  "task": "Put the red block on the plate, then stack the green block on top of it.",
+  "commands": [
+   "pick right -> holding a block",
+   "place plate -> released",
+   "pick left -> holding a block",
+   "place plate -> released",
+   "place plate -> not holding anything",
+   "pick middle -> holding a block",
+   "done"
+  ],
+  "success": true,
+  "declared_done": true,
+  "think_s": [
+   7.65,
+   7.06,
+   7.46,
+   7.19,
+   8.02,
+   8.0,
+   7.76
+  ],
+  "final_scene": {
+   "left": "empty",
+   "middle": "empty",
+   "right": "empty",
+   "plate": "red,green",
+   "gripper": "blue"
+  },
+  "trace": [
+   {
+    "truth": {
+     "left": "green",
+     "middle": "blue",
+     "right": "red",
+     "plate": "empty",
+     "gripper": "empty"
+    },
+    "scene": "1.  The left pad has a green cube, the middle pad has a blue cube, and the right pad has a red cube. 2.  There is one yellow cube sitting on the round yellow plate. 3.  The robot gripper is not holding a cube.",
+    "reply": "Left to do: Put the red block on the plate, then stack the green block on top of it.\nCommand: pick right"
+   },
+   {
+    "truth": {
+     "left": "green",
+     "middle": "blue",
+     "right": "empty",
+     "plate": "empty",
+     "gripper": "red"
+    },
+    "scene": "1.  The left pad has a green cube, the middle pad has a blue cube, and the right pad is empty. 2.  There is one yellow cube sitting on the round yellow plate. 3.  The robot gripper is holding a red cube.",
+    "reply": "Left to do: place red on plate, pick green, place green on red, done\nCommand: place plate"
+   },
+   {
+    "truth": {
+     "left": "green",
+     "middle": "blue",
+     "right": "empty",
+     "plate": "red",
+     "gripper": "empty"
+    },
+    "scene": "1.  The left pad has a green cube, the middle pad has a blue cube, and the right pad is empty. 2.  Yes, there are cubes on the round yellow plate; a red cube is at the bottom, and a white cube is on top of it. 3.  The robot gripper is not holding a cube.",
+    "reply": "Left to do: put the green block on the plate\nCommand: pick left"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "blue",
+     "right": "empty",
+     "plate": "red",
+     "gripper": "green"
+    },
+    "scene": "1.  The left and right pads are empty. The middle pad has a blue cube on it. 2.  Yes, there are cubes on the round yellow plate. From bottom to top, they are a red cube and a smaller red cube on top of it. 3.  The robot gripper is holding a green cube.",
+    "reply": "Left to do: place green on plate\nCommand: place plate"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "blue",
+     "right": "empty",
+     "plate": "red,green",
+     "gripper": "empty"
+    },
+    "scene": "1.  The left and right pads are empty, while the middle pad has a blue cube on it. 2.  Yes, there are cubes on the round yellow plate; from bottom to top, they are red, green, and red. 3.  The robot gripper is holding a green cube.",
+    "reply": "Left to do: Put the red block on the plate, then stack the green block on top of it.\nCommand: place plate"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "blue",
+     "right": "empty",
+     "plate": "red,green",
+     "gripper": "empty"
+    },
+    "scene": "1.  The left and right pads are empty, while the middle pad has a blue cube on it. 2.  Yes, there are cubes on the round yellow plate; from bottom to top, they are red, green, and red. 3.  The robot gripper is holding a green cube.",
+    "reply": "Left to do: Put the red block on the plate.\nCommand: pick middle"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "empty",
+     "right": "empty",
+     "plate": "red,green",
+     "gripper": "blue"
+    },
+    "scene": "1.  The left pad has a grey cube, the middle pad has a grey cube, and the right pad is empty. 2.  Yes, there are cubes on the round yellow plate: a red cube at the bottom and a green cube on top. 3.  The robot gripper is holding a blue cube.",
+    "reply": "Left to do: nothing\nCommand: done"
+   }
+  ]
+ },
+ {
+  "seed": 6,
+  "layout": {
+   "left": "red",
+   "middle": "green",
+   "right": "blue"
+  },
+  "task": "Put the blue block on the plate.",
+  "commands": [
+   "pick right -> holding a block",
+   "place right -> released",
+   "place plate -> not holding anything",
+   "place plate -> not holding anything",
+   "pick right -> holding a block",
+   "place plate -> released",
+   "pick plate -> holding a block"
+  ],
+  "success": false,
+  "declared_done": false,
+  "think_s": [
+   7.33,
+   6.93,
+   6.93,
+   7.04,
+   7.08,
+   7.01,
+   7.21
+  ],
+  "final_scene": {
+   "left": "red",
+   "middle": "green",
+   "right": "empty",
+   "plate": "empty",
+   "gripper": "blue"
+  },
+  "trace": [
+   {
+    "truth": {
+     "left": "red",
+     "middle": "green",
+     "right": "blue",
+     "plate": "empty",
+     "gripper": "empty"
+    },
+    "scene": "1.  The left pad has a red cube, the middle pad has a green cube, and the right pad has a blue cube. 2.  There are no cubes sitting on the round yellow plate. 3.  The robot gripper is not holding a cube.",
+    "reply": "Left to do: Put the blue block on the plate.\nCommand: pick right"
+   },
+   {
+    "truth": {
+     "left": "red",
+     "middle": "green",
+     "right": "empty",
+     "plate": "empty",
+     "gripper": "blue"
+    },
+    "scene": "1.  The left pad has a red cube, the middle pad has a green cube, and the right pad is empty. 2.  There is one yellow cube sitting on the round yellow plate. 3.  The robot gripper is holding a red cube.",
+    "reply": "Left to do: Put the blue block on the plate.\nCommand: place right"
+   },
+   {
+    "truth": {
+     "left": "red",
+     "middle": "green",
+     "right": "blue",
+     "plate": "empty",
+     "gripper": "empty"
+    },
+    "scene": "1.  The left pad has a red cube, the middle pad has a green cube, and the right pad has a blue cube. 2.  There are no cubes sitting on the round yellow plate. 3.  The robot gripper is not holding a cube.",
+    "reply": "Left to do: Put the blue block on the plate.\nCommand: place plate"
+   },
+   {
+    "truth": {
+     "left": "red",
+     "middle": "green",
+     "right": "blue",
+     "plate": "empty",
+     "gripper": "empty"
+    },
+    "scene": "1.  The left pad has a red cube, the middle pad has a green cube, and the right pad has a blue cube. 2.  There are no cubes sitting on the round yellow plate. 3.  The robot gripper is not holding a cube.",
+    "reply": "Left to do: Put the blue block on the plate.\nCommand: place plate"
+   },
+   {
+    "truth": {
+     "left": "red",
+     "middle": "green",
+     "right": "blue",
+     "plate": "empty",
+     "gripper": "empty"
+    },
+    "scene": "1.  The left pad has a red cube, the middle pad has a green cube, and the right pad has a blue cube. 2.  There are no cubes sitting on the round yellow plate. 3.  The robot gripper is not holding a cube.",
+    "reply": "Left to do: Put the blue block on the plate.\nCommand: pick right"
+   },
+   {
+    "truth": {
+     "left": "red",
+     "middle": "green",
+     "right": "empty",
+     "plate": "empty",
+     "gripper": "blue"
+    },
+    "scene": "1.  The left pad has a red cube, the middle pad has a green cube, and the right pad is empty. 2.  There is one yellow cube sitting on the round yellow plate. 3.  The robot gripper is holding a blue cube.",
+    "reply": "Left to do: Put the blue block on the plate.\nCommand: place plate"
+   },
+   {
+    "truth": {
+     "left": "red",
+     "middle": "green",
+     "right": "empty",
+     "plate": "blue",
+     "gripper": "empty"
+    },
+    "scene": "1.  The left pad has a red cube, the middle pad has a green cube, and the right pad is empty. 2.  Yes, there is a blue cube sitting on the round yellow plate. 3.  The robot gripper is not holding a cube.",
+    "reply": "Left to do: Put the blue block on the plate.\nCommand: pick plate"
+   }
+  ]
+ },
+ {
+  "seed": 7,
+  "layout": {
+   "left": "red",
+   "middle": "blue",
+   "right": "green"
+  },
+  "task": "Put the blue block on the plate, then stack the green block on top of it.",
+  "commands": [
+   "pick middle -> holding a block",
+   "place plate -> released",
+   "pick right -> holding a block",
+   "place plate -> released",
+   "pick right -> the gripper closed on nothing",
+   "pick plate -> holding a block",
+   "place left -> released"
+  ],
+  "success": false,
+  "declared_done": false,
+  "think_s": [
+   7.2,
+   6.98,
+   7.9,
+   7.25,
+   8.47,
+   8.04,
+   7.78
+  ],
+  "final_scene": {
+   "left": "red,green",
+   "middle": "empty",
+   "right": "empty",
+   "plate": "blue",
+   "gripper": "empty"
+  },
+  "trace": [
+   {
+    "truth": {
+     "left": "red",
+     "middle": "blue",
+     "right": "green",
+     "plate": "empty",
+     "gripper": "empty"
+    },
+    "scene": "1.  The left pad has a red cube, the middle pad has a blue cube, and the right pad has a green cube. 2.  There is one yellow cube sitting on the round yellow plate. 3.  The robot gripper is not holding a cube.",
+    "reply": "Left to do: Put the blue block on the plate, then stack the green block on top of it.\nCommand: pick middle"
+   },
+   {
+    "truth": {
+     "left": "red",
+     "middle": "empty",
+     "right": "green",
+     "plate": "empty",
+     "gripper": "blue"
+    },
+    "scene": "1.  The left pad has a red cube, the middle pad is empty, and the right pad has a green cube. 2.  There is one yellow cube sitting on the round yellow plate. 3.  The robot gripper is holding a blue cube.",
+    "reply": "Left to do: place blue on plate, stack green on blue\nCommand: place plate"
+   },
+   {
+    "truth": {
+     "left": "red",
+     "middle": "empty",
+     "right": "green",
+     "plate": "blue",
+     "gripper": "empty"
+    },
+    "scene": "1.  The left pad has a red cube, the middle pad is empty, and the right pad has a green cube. 2.  Yes, there are cubes on the round yellow plate; from bottom to top, they are blue and yellow. 3.  The robot gripper is holding a red cube.",
+    "reply": "Left to do: Put the blue block on the plate, then stack the green block on top of it.\nCommand: pick right"
+   },
+   {
+    "truth": {
+     "left": "red",
+     "middle": "empty",
+     "right": "empty",
+     "plate": "blue",
+     "gripper": "green"
+    },
+    "scene": "1.  The left pad has a red cube, the middle pad is empty, and the right pad has a grey cube. 2.  Yes, there are two cubes on the round yellow plate: a blue cube at the bottom and a white cube on top. 3.  The robot gripper is holding a green cube.",
+    "reply": "Left to do: place green on plate\nCommand: place plate"
+   },
+   {
+    "truth": {
+     "left": "red",
+     "middle": "empty",
+     "right": "empty",
+     "plate": "blue,green",
+     "gripper": "empty"
+    },
+    "scene": "1.  The left pad has a red cube, the middle pad is empty, and the right pad has a grey cube. 2.  Yes, there are cubes on the round yellow plate; from bottom to top, they are green, blue, and red. 3.  The robot gripper at the top of the image is not holding a cube.",
+    "reply": "Left to do: Put the blue block on the plate, then stack the green block on top of it.\nCommand: pick right"
+   },
+   {
+    "truth": {
+     "left": "red",
+     "middle": "empty",
+     "right": "empty",
+     "plate": "blue,green",
+     "gripper": "empty"
+    },
+    "scene": "1.  The left pad has a red cube, the middle pad is empty, and the right pad has a grey cube. 2.  Yes, there are three cubes on the round yellow plate: blue at the bottom, green in the middle, and yellow at the top. 3.  The robot gripper at the top of the image is not holding a cube.",
+    "reply": "Left to do: put the blue block on the plate, then stack the green block on top of it.\nCommand: pick plate"
+   },
+   {
+    "truth": {
+     "left": "red",
+     "middle": "empty",
+     "right": "empty",
+     "plate": "blue",
+     "gripper": "green"
+    },
+    "scene": "1.  The left pad has a red cube, the middle pad is empty, and the right pad has a grey cube. 2.  Yes, there are cubes on the round yellow plate; the bottom cube is blue and the top cube is yellow. 3.  The robot gripper is holding a green cube.",
+    "reply": "Left to do: place left\nCommand: place left"
+   }
+  ]
+ },
+ {
+  "seed": 8,
+  "layout": {
+   "left": "green",
+   "middle": "blue",
+   "right": "red"
+  },
+  "task": "Put the green block on the plate.",
+  "commands": [
+   "pick left -> holding a block",
+   "place plate -> released",
+   "pick right -> holding a block",
+   "pick right -> already holding a block",
+   "pick middle -> already holding a block",
+   "pick middle -> already holding a block",
+   "place plate -> released"
+  ],
+  "success": false,
+  "declared_done": false,
+  "think_s": [
+   7.38,
+   7.41,
+   7.57,
+   7.83,
+   7.88,
+   8.07,
+   8.08
+  ],
+  "final_scene": {
+   "left": "empty",
+   "middle": "blue",
+   "right": "empty",
+   "plate": "green,red",
+   "gripper": "empty"
+  },
+  "trace": [
+   {
+    "truth": {
+     "left": "green",
+     "middle": "blue",
+     "right": "red",
+     "plate": "empty",
+     "gripper": "empty"
+    },
+    "scene": "1.  The left pad has a green cube, the middle pad has a blue cube, and the right pad has a red cube. 2.  There is one yellow cube sitting on the round yellow plate. 3.  The robot gripper is not holding a cube.",
+    "reply": "Left to do: Put the green block on the plate.\nCommand: pick left"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "blue",
+     "right": "red",
+     "plate": "empty",
+     "gripper": "green"
+    },
+    "scene": "1.  The left pad has a white cube, the middle pad has a blue cube, and the right pad has a red cube. 2.  There is one yellow cube sitting on the round yellow plate. 3.  The robot gripper is holding a green cube.",
+    "reply": "Left to do: place green on plate, done\nCommand: place plate"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "blue",
+     "right": "red",
+     "plate": "green",
+     "gripper": "empty"
+    },
+    "scene": "1.  The left pad has a grey cube, the middle pad has a blue cube, and the right pad has a red cube. 2.  Yes, there are cubes on the round yellow plate; from bottom to top, they are a green cube and a black cube. 3.  The robot gripper at the top of the image is holding a red cube.",
+    "reply": "Left to do: Put the green block on the plate.\nCommand: pick right"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "blue",
+     "right": "empty",
+     "plate": "green",
+     "gripper": "red"
+    },
+    "scene": "1.  The left and right pads are empty, while the middle pad has a blue cube on it. 2.  Yes, there are two cubes on the round yellow plate: a green cube at the bottom and a smaller red cube on top of it. 3.  The robot gripper is holding a red cube.",
+    "reply": "Left to do: Put the green block on the plate.\nCommand: pick right"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "blue",
+     "right": "empty",
+     "plate": "green",
+     "gripper": "red"
+    },
+    "scene": "1.  The left and right pads are empty, while the middle pad has a blue cube on it. 2.  Yes, there are two cubes on the round yellow plate: a green cube at the bottom and a smaller red cube on top of it. 3.  The robot gripper is holding a red cube.",
+    "reply": "Left to do: Put the green block on the plate.\nCommand: pick middle"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "blue",
+     "right": "empty",
+     "plate": "green",
+     "gripper": "red"
+    },
+    "scene": "1.  The left and right pads are empty, while the middle pad has a blue cube on it. 2.  Yes, there are two cubes on the round yellow plate: a green cube at the bottom and a smaller red cube on top of it. 3.  The robot gripper is holding a red cube.",
+    "reply": "Left to do: Put the green block on the plate.\nCommand: pick middle"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "blue",
+     "right": "empty",
+     "plate": "green",
+     "gripper": "red"
+    },
+    "scene": "1.  The left and right pads are empty, while the middle pad has a blue cube on it. 2.  Yes, there are two cubes on the round yellow plate: a green cube at the bottom and a smaller red cube on top of it. 3.  The robot gripper is holding a red cube.",
+    "reply": "Left to do: Put the green block on the plate.\nCommand: place plate"
+   }
+  ]
+ },
+ {
+  "seed": 9,
+  "layout": {
+   "left": "blue",
+   "middle": "red",
+   "right": "green"
+  },
+  "task": "Put the blue block on the plate.",
+  "commands": [
+   "pick left -> holding a block",
+   "place plate -> released",
+   "place plate -> not holding anything",
+   "pick right -> holding a block",
+   "pick right -> already holding a block",
+   "pick middle -> already holding a block",
+   "pick middle -> already holding a block"
+  ],
+  "success": true,
+  "declared_done": false,
+  "think_s": [
+   6.98,
+   6.91,
+   7.54,
+   7.64,
+   7.79,
+   8.0,
+   8.0
+  ],
+  "final_scene": {
+   "left": "empty",
+   "middle": "red",
+   "right": "empty",
+   "plate": "blue",
+   "gripper": "green"
+  },
+  "trace": [
+   {
+    "truth": {
+     "left": "blue",
+     "middle": "red",
+     "right": "green",
+     "plate": "empty",
+     "gripper": "empty"
+    },
+    "scene": "1.  The left pad has a blue cube, the middle pad has a red cube, and the right pad has a green cube. 2.  There is one yellow cube sitting on the round yellow plate. 3.  The robot gripper is not holding a cube.",
+    "reply": "Left to do: Put the blue block on the plate.\nCommand: pick left"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "red",
+     "right": "green",
+     "plate": "empty",
+     "gripper": "blue"
+    },
+    "scene": "1.  The left pad has a white cube, the middle pad has a red cube, and the right pad has a green cube. 2.  There is one yellow cube sitting on the round yellow plate. 3.  The robot gripper is holding a blue cube.",
+    "reply": "Left to do: place blue on plate, done\nCommand: place plate"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "red",
+     "right": "green",
+     "plate": "blue",
+     "gripper": "empty"
+    },
+    "scene": "1.  The left pad has a white cube, the middle pad has a red cube, and the right pad has a green cube. 2.  Yes, there is a blue cube sitting on the round yellow plate. 3.  The robot gripper is holding a red cube.",
+    "reply": "Left to do: Put the blue block on the plate.\nCommand: place plate"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "red",
+     "right": "green",
+     "plate": "blue",
+     "gripper": "empty"
+    },
+    "scene": "1.  The left pad has a white cube, the middle pad has a red cube, and the right pad has a green cube. 2.  Yes, there is a blue cube sitting on the round yellow plate. 3.  The robot gripper is holding a red cube.",
+    "reply": "Left to do: Put the blue block on the plate.\nCommand: pick right"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "red",
+     "right": "empty",
+     "plate": "blue",
+     "gripper": "green"
+    },
+    "scene": "1.  The left and right pads are empty, while the middle pad has a red cube on it. 2.  Yes, there are two cubes on the round yellow plate: a blue cube on the bottom and a smaller blue cube on top. 3.  The robot gripper is holding a green cube.",
+    "reply": "Left to do: Put the blue block on the plate.\nCommand: pick right"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "red",
+     "right": "empty",
+     "plate": "blue",
+     "gripper": "green"
+    },
+    "scene": "1.  The left and right pads are empty, while the middle pad has a red cube on it. 2.  Yes, there are two cubes on the round yellow plate: a blue cube on the bottom and a smaller blue cube on top. 3.  The robot gripper is holding a green cube.",
+    "reply": "Left to do: Put the blue block on the plate.\nCommand: pick middle"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "red",
+     "right": "empty",
+     "plate": "blue",
+     "gripper": "green"
+    },
+    "scene": "1.  The left and right pads are empty, while the middle pad has a red cube on it. 2.  Yes, there are two cubes on the round yellow plate: a blue cube on the bottom and a smaller blue cube on top. 3.  The robot gripper is holding a green cube.",
+    "reply": "Left to do: Put the blue block on the plate.\nCommand: pick middle"
+   }
+  ]
+ },
+ {
+  "seed": 10,
+  "layout": {
+   "left": "blue",
+   "middle": "green",
+   "right": "red"
+  },
+  "task": "Put the green block on the plate, then stack the blue block on top of it.",
+  "commands": [
+   "pick middle -> holding a block",
+   "place plate -> released",
+   "pick right -> holding a block",
+   "place right -> released",
+   "pick left -> holding a block",
+   "pick middle -> already holding a block",
+   "pick left -> already holding a block"
+  ],
+  "success": false,
+  "declared_done": false,
+  "think_s": [
+   7.64,
+   6.94,
+   7.65,
+   7.63,
+   7.94,
+   7.58,
+   7.59
+  ],
+  "final_scene": {
+   "left": "empty",
+   "middle": "empty",
+   "right": "red",
+   "plate": "green",
+   "gripper": "blue"
+  },
+  "trace": [
+   {
+    "truth": {
+     "left": "blue",
+     "middle": "green",
+     "right": "red",
+     "plate": "empty",
+     "gripper": "empty"
+    },
+    "scene": "1.  The left pad has a blue cube, the middle pad has a green cube, and the right pad has a red cube. 2.  There is one yellow cube sitting on the round yellow plate. 3.  The robot gripper is not holding a cube.",
+    "reply": "Left to do: Put the green block on the plate, then stack the blue block on top of it.\nCommand: pick middle"
+   },
+   {
+    "truth": {
+     "left": "blue",
+     "middle": "empty",
+     "right": "red",
+     "plate": "empty",
+     "gripper": "green"
+    },
+    "scene": "1.  The left pad has a blue cube, the middle pad is empty, and the right pad has a red cube. 2.  There is one yellow cube sitting on the round yellow plate. 3.  The robot gripper is holding a green cube.",
+    "reply": "Left to do: place green on plate, place blue on green\nCommand: place plate"
+   },
+   {
+    "truth": {
+     "left": "blue",
+     "middle": "empty",
+     "right": "red",
+     "plate": "green",
+     "gripper": "empty"
+    },
+    "scene": "1.  The left pad has a blue cube, the middle pad is empty, and the right pad has a red cube. 2.  Yes, there are cubes on the round yellow plate; the bottom cube is green and there is a yellow cube on top of it. 3.  The robot gripper is holding a red cube.",
+    "reply": "Left to do: put the green block on the plate, then stack the blue block on top of it.\nCommand: pick right"
+   },
+   {
+    "truth": {
+     "left": "blue",
+     "middle": "empty",
+     "right": "empty",
+     "plate": "green",
+     "gripper": "red"
+    },
+    "scene": "1.  The left pad has a blue cube, the middle pad is empty, and the right pad has a grey cube. 2.  Yes, there are two cubes on the round yellow plate: a green cube at the bottom and a yellow cube on top. 3.  The robot gripper is holding a red cube.",
+    "reply": "Left to do: put the green block on the plate, then stack the blue block on top of it.\nCommand: place right"
+   },
+   {
+    "truth": {
+     "left": "blue",
+     "middle": "empty",
+     "right": "red",
+     "plate": "green",
+     "gripper": "empty"
+    },
+    "scene": "1.  The left pad has a blue cube, the middle pad is empty, and the right pad has a red cube. 2.  Yes, there are cubes on the round yellow plate; the bottom cube is green and the top cube is white. 3.  The robot gripper at the top of the image is not holding a cube.",
+    "reply": "Left to do: Put the green block on the plate, then stack the blue block on top of it.\nCommand: pick left"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "empty",
+     "right": "red",
+     "plate": "green",
+     "gripper": "blue"
+    },
+    "scene": "1.  The left and middle pads have grey cubes on them, while the right pad has a red cube. 2.  There are two cubes on the round yellow plate: a green cube at the bottom and a yellow cube on top. 3.  The robot gripper is holding a green cube.",
+    "reply": "Left to do: stack the blue block on top of the green block on the plate\nCommand: pick middle"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "empty",
+     "right": "red",
+     "plate": "green",
+     "gripper": "blue"
+    },
+    "scene": "1.  The left and middle pads have grey cubes on them, while the right pad has a red cube. 2.  There are two cubes on the round yellow plate: a green cube at the bottom and a yellow cube on top. 3.  The robot gripper is holding a green cube.",
+    "reply": "Left to do: stack the blue block on top of the green block on the plate\nCommand: pick left"
+   }
+  ]
+ },
+ {
+  "seed": 11,
+  "layout": {
+   "left": "green",
+   "middle": "red",
+   "right": "blue"
+  },
+  "task": "Put the red block on the plate.",
+  "commands": [
+   "pick right -> holding a block",
+   "place plate -> released",
+   "place plate -> not holding anything",
+   "place plate -> not holding anything",
+   "place plate -> not holding anything",
+   "place plate -> not holding anything",
+   "place plate -> not holding anything"
+  ],
+  "success": false,
+  "declared_done": false,
+  "think_s": [
+   7.39,
+   6.85,
+   7.46,
+   7.59,
+   7.56,
+   7.51,
+   7.79
+  ],
+  "final_scene": {
+   "left": "green",
+   "middle": "red",
+   "right": "empty",
+   "plate": "blue",
+   "gripper": "empty"
+  },
+  "trace": [
+   {
+    "truth": {
+     "left": "green",
+     "middle": "red",
+     "right": "blue",
+     "plate": "empty",
+     "gripper": "empty"
+    },
+    "scene": "1.  From left to right, the pads have a green cube, a red cube, and a blue cube respectively. 2.  There is one yellow cube sitting on the round yellow plate. 3.  The robot gripper at the top of the image is not holding a cube.",
+    "reply": "Left to do: Put the red block on the plate.\nCommand: pick right"
+   },
+   {
+    "truth": {
+     "left": "green",
+     "middle": "red",
+     "right": "empty",
+     "plate": "empty",
+     "gripper": "blue"
+    },
+    "scene": "1.  The left pad has a green cube, the middle pad has a red cube, and the right pad is empty. 2.  There is one yellow cube sitting on the round yellow plate. 3.  The robot gripper is holding a red cube.",
+    "reply": "Left to do: place red on plate, done\nCommand: place plate"
+   },
+   {
+    "truth": {
+     "left": "green",
+     "middle": "red",
+     "right": "empty",
+     "plate": "blue",
+     "gripper": "empty"
+    },
+    "scene": "1.  The left pad has a green cube, the middle pad has a red cube, and the right pad is empty. 2.  Yes, there is a blue cube sitting on the round yellow plate. 3.  The robot gripper is holding a red cube.",
+    "reply": "Left to do: put the red block on the plate\nCommand: place plate"
+   },
+   {
+    "truth": {
+     "left": "green",
+     "middle": "red",
+     "right": "empty",
+     "plate": "blue",
+     "gripper": "empty"
+    },
+    "scene": "1.  The left pad has a green cube, the middle pad has a red cube, and the right pad is empty. 2.  Yes, there is a blue cube sitting on the round yellow plate. 3.  The robot gripper is holding a red cube.",
+    "reply": "Left to do: Put the red block on the plate.\nCommand: place plate"
+   },
+   {
+    "truth": {
+     "left": "green",
+     "middle": "red",
+     "right": "empty",
+     "plate": "blue",
+     "gripper": "empty"
+    },
+    "scene": "1.  The left pad has a green cube, the middle pad has a red cube, and the right pad is empty. 2.  Yes, there is a blue cube sitting on the round yellow plate. 3.  The robot gripper is holding a red cube.",
+    "reply": "Left to do: Put the red block on the plate.\nCommand: place plate"
+   },
+   {
+    "truth": {
+     "left": "green",
+     "middle": "red",
+     "right": "empty",
+     "plate": "blue",
+     "gripper": "empty"
+    },
+    "scene": "1.  The left pad has a green cube, the middle pad has a red cube, and the right pad is empty. 2.  Yes, there is a blue cube sitting on the round yellow plate. 3.  The robot gripper is holding a red cube.",
+    "reply": "Left to do: Put the red block on the plate.\nCommand: place plate"
+   },
+   {
+    "truth": {
+     "left": "green",
+     "middle": "red",
+     "right": "empty",
+     "plate": "blue",
+     "gripper": "empty"
+    },
+    "scene": "1.  The left pad has a green cube, the middle pad has a red cube, and the right pad is empty. 2.  Yes, there is a blue cube sitting on the round yellow plate. 3.  The robot gripper is holding a red cube.",
+    "reply": "Left to do: put the red block on the plate\nCommand: place plate"
+   }
+  ]
+ }
+]

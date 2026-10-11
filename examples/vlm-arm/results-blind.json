@@ -1,0 +1,1382 @@
+[
+ {
+  "seed": 0,
+  "layout": {
+   "left": "blue",
+   "middle": "red",
+   "right": "green"
+  },
+  "task": "Put the block that is neither blue nor green on the plate.",
+  "commands": [
+   "pick left -> holding a block",
+   "pick plate -> already holding a block",
+   "pick left -> already holding a block",
+   "pick left -> already holding a block",
+   "pick middle -> already holding a block",
+   "pick middle -> already holding a block",
+   "pick right -> already holding a block"
+  ],
+  "success": false,
+  "declared_done": false,
+  "think_s": [
+   1.81,
+   1.96,
+   1.69,
+   1.74,
+   1.86,
+   1.85,
+   1.95
+  ],
+  "final_scene": {
+   "left": "empty",
+   "middle": "red",
+   "right": "green",
+   "plate": "empty",
+   "gripper": "blue"
+  },
+  "trace": [
+   {
+    "truth": {
+     "left": "blue",
+     "middle": "red",
+     "right": "green",
+     "plate": "empty",
+     "gripper": "empty"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: Find the block that is neither blue nor green, pick it, and place it on the plate.\nCommand: pick left"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "red",
+     "right": "green",
+     "plate": "empty",
+     "gripper": "blue"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: Identify the block held, determine if it's neither blue nor green, and if so, place it on the plate.\nCommand: pick plate"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "red",
+     "right": "green",
+     "plate": "empty",
+     "gripper": "blue"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: Identify the block that is neither blue nor green and place it on the plate.\nCommand: pick left"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "red",
+     "right": "green",
+     "plate": "empty",
+     "gripper": "blue"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: Identify the block that is neither blue nor green and place it on the plate.\nCommand: pick left"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "red",
+     "right": "green",
+     "plate": "empty",
+     "gripper": "blue"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: Identify the block that is neither blue nor green and place it on the plate.\nCommand: pick middle"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "red",
+     "right": "green",
+     "plate": "empty",
+     "gripper": "blue"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: Identify the block that is neither blue nor green and place it on the plate.\nCommand: pick middle"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "red",
+     "right": "green",
+     "plate": "empty",
+     "gripper": "blue"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: Identify the block that is neither blue nor green and place it on the plate.\nCommand: pick right"
+   }
+  ]
+ },
+ {
+  "seed": 1,
+  "layout": {
+   "left": "red",
+   "middle": "green",
+   "right": "blue"
+  },
+  "task": "Put the blue block on the plate, then stack the green block on top of it.",
+  "commands": [
+   "(reply had no valid command; commands name places, e.g. pick left)",
+   "pick left -> holding a block",
+   "place plate -> released",
+   "pick middle -> holding a block",
+   "place middle -> released",
+   "pick right -> holding a block",
+   "place left -> released"
+  ],
+  "success": false,
+  "declared_done": false,
+  "think_s": [
+   1.68,
+   1.34,
+   1.68,
+   1.9,
+   1.78,
+   2.01,
+   2.0
+  ],
+  "final_scene": {
+   "left": "blue",
+   "middle": "green",
+   "right": "empty",
+   "plate": "red",
+   "gripper": "empty"
+  },
+  "trace": [
+   {
+    "truth": {
+     "left": "red",
+     "middle": "green",
+     "right": "blue",
+     "plate": "empty",
+     "gripper": "empty"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: pick blue, place blue on plate, pick green, place green on blue\nCommand: pick blue"
+   },
+   {
+    "truth": {
+     "left": "red",
+     "middle": "green",
+     "right": "blue",
+     "plate": "empty",
+     "gripper": "empty"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: pick blue\nCommand: pick left"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "green",
+     "right": "blue",
+     "plate": "empty",
+     "gripper": "red"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: place plate, pick middle, place middle\nCommand: place plate"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "green",
+     "right": "blue",
+     "plate": "red",
+     "gripper": "empty"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: put the blue block on the plate, then stack the green block on top of it.\nCommand: pick middle"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "empty",
+     "right": "blue",
+     "plate": "red",
+     "gripper": "green"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: stack the green block on top of the blue block on the plate\nCommand: place middle"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "green",
+     "right": "blue",
+     "plate": "red",
+     "gripper": "empty"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: Put the blue block on the plate, then stack the green block on top of it.\nCommand: pick right"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "green",
+     "right": "empty",
+     "plate": "red",
+     "gripper": "blue"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: Put the blue block on the plate, then stack the green block on top of it.\nCommand: place left"
+   }
+  ]
+ },
+ {
+  "seed": 2,
+  "layout": {
+   "left": "blue",
+   "middle": "red",
+   "right": "green"
+  },
+  "task": "Put the red block on the plate, then stack the blue block on top of it.",
+  "commands": [
+   "(reply had no valid command; commands name places, e.g. pick left)",
+   "pick left -> holding a block",
+   "place plate -> released",
+   "pick middle -> holding a block",
+   "place middle -> released",
+   "pick right -> holding a block",
+   "place plate -> released"
+  ],
+  "success": false,
+  "declared_done": false,
+  "think_s": [
+   1.68,
+   1.34,
+   1.57,
+   1.91,
+   1.79,
+   2.0,
+   2.0
+  ],
+  "final_scene": {
+   "left": "empty",
+   "middle": "red",
+   "right": "empty",
+   "plate": "blue,green",
+   "gripper": "empty"
+  },
+  "trace": [
+   {
+    "truth": {
+     "left": "blue",
+     "middle": "red",
+     "right": "green",
+     "plate": "empty",
+     "gripper": "empty"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: pick red, place red on plate, pick blue, place blue on red\nCommand: pick red"
+   },
+   {
+    "truth": {
+     "left": "blue",
+     "middle": "red",
+     "right": "green",
+     "plate": "empty",
+     "gripper": "empty"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: pick red\nCommand: pick left"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "red",
+     "right": "green",
+     "plate": "empty",
+     "gripper": "blue"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: place plate, pick middle, place middle\nCommand: place plate"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "red",
+     "right": "green",
+     "plate": "blue",
+     "gripper": "empty"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: put the red block on the plate, then stack the blue block on top of it.\nCommand: pick middle"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "empty",
+     "right": "green",
+     "plate": "blue",
+     "gripper": "red"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: stack the blue block on top of the red block on the plate\nCommand: place middle"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "red",
+     "right": "green",
+     "plate": "blue",
+     "gripper": "empty"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: Put the red block on the plate, then stack the blue block on top of it.\nCommand: pick right"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "red",
+     "right": "empty",
+     "plate": "blue",
+     "gripper": "green"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: Put the red block on the plate, then stack the blue block on top of it.\nCommand: place plate"
+   }
+  ]
+ },
+ {
+  "seed": 3,
+  "layout": {
+   "left": "blue",
+   "middle": "green",
+   "right": "red"
+  },
+  "task": "Put the block that is neither red nor green on the plate.",
+  "commands": [
+   "pick left -> holding a block",
+   "pick plate -> already holding a block",
+   "pick middle -> already holding a block",
+   "pick right -> already holding a block",
+   "pick left -> already holding a block",
+   "place plate -> released",
+   "pick left -> the gripper closed on nothing"
+  ],
+  "success": true,
+  "declared_done": false,
+  "think_s": [
+   1.55,
+   1.94,
+   1.69,
+   1.74,
+   1.85,
+   1.66,
+   1.95
+  ],
+  "final_scene": {
+   "left": "empty",
+   "middle": "green",
+   "right": "red",
+   "plate": "blue",
+   "gripper": "empty"
+  },
+  "trace": [
+   {
+    "truth": {
+     "left": "blue",
+     "middle": "green",
+     "right": "red",
+     "plate": "empty",
+     "gripper": "empty"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: Find the blue block and place it on the plate.\nCommand: pick left"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "green",
+     "right": "red",
+     "plate": "empty",
+     "gripper": "blue"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: Identify the block held, determine if it's neither red nor green, place it on the plate, and then done.\nCommand: pick plate"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "green",
+     "right": "red",
+     "plate": "empty",
+     "gripper": "blue"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: Identify the block that is neither red nor green and place it on the plate.\nCommand: pick middle"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "green",
+     "right": "red",
+     "plate": "empty",
+     "gripper": "blue"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: Identify the block that is neither red nor green and place it on the plate.\nCommand: pick right"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "green",
+     "right": "red",
+     "plate": "empty",
+     "gripper": "blue"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: Identify the block that is neither red nor green and place it on the plate.\nCommand: pick left"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "green",
+     "right": "red",
+     "plate": "empty",
+     "gripper": "blue"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: Put the blue block on the plate.\nCommand: place plate"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "green",
+     "right": "red",
+     "plate": "blue",
+     "gripper": "empty"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: Identify the block that is neither red nor green and place it on the plate.\nCommand: pick left"
+   }
+  ]
+ },
+ {
+  "seed": 4,
+  "layout": {
+   "left": "red",
+   "middle": "green",
+   "right": "blue"
+  },
+  "task": "Put the red block on the plate.",
+  "commands": [
+   "pick middle -> holding a block",
+   "place plate -> released",
+   "pick left -> holding a block",
+   "pick right -> already holding a block",
+   "pick middle -> already holding a block",
+   "pick middle -> already holding a block",
+   "pick middle -> already holding a block"
+  ],
+  "success": false,
+  "declared_done": false,
+  "think_s": [
+   1.59,
+   1.32,
+   1.4,
+   1.49,
+   1.56,
+   1.65,
+   1.65
+  ],
+  "final_scene": {
+   "left": "empty",
+   "middle": "empty",
+   "right": "blue",
+   "plate": "green",
+   "gripper": "red"
+  },
+  "trace": [
+   {
+    "truth": {
+     "left": "red",
+     "middle": "green",
+     "right": "blue",
+     "plate": "empty",
+     "gripper": "empty"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: Pick the red block and place it on the plate.\nCommand: pick middle"
+   },
+   {
+    "truth": {
+     "left": "red",
+     "middle": "empty",
+     "right": "blue",
+     "plate": "empty",
+     "gripper": "green"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: place plate\nCommand: place plate"
+   },
+   {
+    "truth": {
+     "left": "red",
+     "middle": "empty",
+     "right": "blue",
+     "plate": "green",
+     "gripper": "empty"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: pick left, place left\nCommand: pick left"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "empty",
+     "right": "blue",
+     "plate": "green",
+     "gripper": "red"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: Put the red block on the plate.\nCommand: pick right"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "empty",
+     "right": "blue",
+     "plate": "green",
+     "gripper": "red"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: Put the red block on the plate.\nCommand: pick middle"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "empty",
+     "right": "blue",
+     "plate": "green",
+     "gripper": "red"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: Put the red block on the plate.\nCommand: pick middle"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "empty",
+     "right": "blue",
+     "plate": "green",
+     "gripper": "red"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: Put the red block on the plate.\nCommand: pick middle"
+   }
+  ]
+ },
+ {
+  "seed": 5,
+  "layout": {
+   "left": "green",
+   "middle": "blue",
+   "right": "red"
+  },
+  "task": "Put the red block on the plate, then stack the green block on top of it.",
+  "commands": [
+   "(reply had no valid command; commands name places, e.g. pick left)",
+   "pick left -> holding a block",
+   "place plate -> released",
+   "pick middle -> holding a block",
+   "place middle -> released",
+   "pick right -> holding a block",
+   "place left -> released"
+  ],
+  "success": false,
+  "declared_done": false,
+  "think_s": [
+   1.67,
+   1.59,
+   1.57,
+   1.9,
+   1.79,
+   1.76,
+   2.0
+  ],
+  "final_scene": {
+   "left": "red",
+   "middle": "blue",
+   "right": "empty",
+   "plate": "green",
+   "gripper": "empty"
+  },
+  "trace": [
+   {
+    "truth": {
+     "left": "green",
+     "middle": "blue",
+     "right": "red",
+     "plate": "empty",
+     "gripper": "empty"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: pick red, place red on plate, pick green, place green on red\nCommand: pick red"
+   },
+   {
+    "truth": {
+     "left": "green",
+     "middle": "blue",
+     "right": "red",
+     "plate": "empty",
+     "gripper": "empty"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: put the green block on the red block on the plate\nCommand: pick left"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "blue",
+     "right": "red",
+     "plate": "empty",
+     "gripper": "green"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: place plate, pick middle, place middle\nCommand: place plate"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "blue",
+     "right": "red",
+     "plate": "green",
+     "gripper": "empty"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: Put the red block on the plate, then stack the green block on top of it.\nCommand: pick middle"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "empty",
+     "right": "red",
+     "plate": "green",
+     "gripper": "blue"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: stack the green block on top of the red block on the plate\nCommand: place middle"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "blue",
+     "right": "red",
+     "plate": "green",
+     "gripper": "empty"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: Put the green block on the plate.\nCommand: pick right"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "blue",
+     "right": "empty",
+     "plate": "green",
+     "gripper": "red"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: Put the red block on the plate, then stack the green block on top of it.\nCommand: place left"
+   }
+  ]
+ },
+ {
+  "seed": 6,
+  "layout": {
+   "left": "red",
+   "middle": "green",
+   "right": "blue"
+  },
+  "task": "Put the blue block on the plate.",
+  "commands": [
+   "pick middle -> holding a block",
+   "place plate -> released",
+   "pick left -> holding a block",
+   "pick right -> already holding a block",
+   "pick middle -> already holding a block",
+   "pick middle -> already holding a block",
+   "pick middle -> already holding a block"
+  ],
+  "success": false,
+  "declared_done": false,
+  "think_s": [
+   1.32,
+   1.32,
+   1.4,
+   1.41,
+   1.47,
+   1.65,
+   1.65
+  ],
+  "final_scene": {
+   "left": "empty",
+   "middle": "empty",
+   "right": "blue",
+   "plate": "green",
+   "gripper": "red"
+  },
+  "trace": [
+   {
+    "truth": {
+     "left": "red",
+     "middle": "green",
+     "right": "blue",
+     "plate": "empty",
+     "gripper": "empty"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: pick blue\nCommand: pick middle"
+   },
+   {
+    "truth": {
+     "left": "red",
+     "middle": "empty",
+     "right": "blue",
+     "plate": "empty",
+     "gripper": "green"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: place plate\nCommand: place plate"
+   },
+   {
+    "truth": {
+     "left": "red",
+     "middle": "empty",
+     "right": "blue",
+     "plate": "green",
+     "gripper": "empty"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: pick left, place left\nCommand: pick left"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "empty",
+     "right": "blue",
+     "plate": "green",
+     "gripper": "red"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: put blue block on plate\nCommand: pick right"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "empty",
+     "right": "blue",
+     "plate": "green",
+     "gripper": "red"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: put blue block on plate\nCommand: pick middle"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "empty",
+     "right": "blue",
+     "plate": "green",
+     "gripper": "red"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: Put the blue block on the plate.\nCommand: pick middle"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "empty",
+     "right": "blue",
+     "plate": "green",
+     "gripper": "red"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: Put the blue block on the plate.\nCommand: pick middle"
+   }
+  ]
+ },
+ {
+  "seed": 7,
+  "layout": {
+   "left": "red",
+   "middle": "blue",
+   "right": "green"
+  },
+  "task": "Put the blue block on the plate, then stack the green block on top of it.",
+  "commands": [
+   "(reply had no valid command; commands name places, e.g. pick left)",
+   "pick left -> holding a block",
+   "place plate -> released",
+   "pick middle -> holding a block",
+   "place middle -> released",
+   "pick right -> holding a block",
+   "place left -> released"
+  ],
+  "success": false,
+  "declared_done": false,
+  "think_s": [
+   1.68,
+   1.34,
+   1.58,
+   1.9,
+   1.79,
+   2.0,
+   2.01
+  ],
+  "final_scene": {
+   "left": "green",
+   "middle": "blue",
+   "right": "empty",
+   "plate": "red",
+   "gripper": "empty"
+  },
+  "trace": [
+   {
+    "truth": {
+     "left": "red",
+     "middle": "blue",
+     "right": "green",
+     "plate": "empty",
+     "gripper": "empty"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: pick blue, place blue on plate, pick green, place green on blue\nCommand: pick blue"
+   },
+   {
+    "truth": {
+     "left": "red",
+     "middle": "blue",
+     "right": "green",
+     "plate": "empty",
+     "gripper": "empty"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: pick blue\nCommand: pick left"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "blue",
+     "right": "green",
+     "plate": "empty",
+     "gripper": "red"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: place plate, pick middle, place middle\nCommand: place plate"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "blue",
+     "right": "green",
+     "plate": "red",
+     "gripper": "empty"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: put the blue block on the plate, then stack the green block on top of it.\nCommand: pick middle"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "empty",
+     "right": "green",
+     "plate": "red",
+     "gripper": "blue"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: stack the green block on top of the blue block on the plate\nCommand: place middle"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "blue",
+     "right": "green",
+     "plate": "red",
+     "gripper": "empty"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: Put the blue block on the plate, then stack the green block on top of it.\nCommand: pick right"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "blue",
+     "right": "empty",
+     "plate": "red",
+     "gripper": "green"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: Put the blue block on the plate, then stack the green block on top of it.\nCommand: place left"
+   }
+  ]
+ },
+ {
+  "seed": 8,
+  "layout": {
+   "left": "green",
+   "middle": "blue",
+   "right": "red"
+  },
+  "task": "Put the green block on the plate.",
+  "commands": [
+   "pick middle -> holding a block",
+   "place plate -> released",
+   "pick left -> holding a block",
+   "pick right -> already holding a block",
+   "pick middle -> already holding a block",
+   "pick middle -> already holding a block",
+   "pick middle -> already holding a block"
+  ],
+  "success": false,
+  "declared_done": false,
+  "think_s": [
+   1.32,
+   1.33,
+   1.41,
+   1.42,
+   1.55,
+   1.65,
+   1.67
+  ],
+  "final_scene": {
+   "left": "empty",
+   "middle": "empty",
+   "right": "red",
+   "plate": "blue",
+   "gripper": "green"
+  },
+  "trace": [
+   {
+    "truth": {
+     "left": "green",
+     "middle": "blue",
+     "right": "red",
+     "plate": "empty",
+     "gripper": "empty"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: pick green\nCommand: pick middle"
+   },
+   {
+    "truth": {
+     "left": "green",
+     "middle": "empty",
+     "right": "red",
+     "plate": "empty",
+     "gripper": "blue"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: place plate\nCommand: place plate"
+   },
+   {
+    "truth": {
+     "left": "green",
+     "middle": "empty",
+     "right": "red",
+     "plate": "blue",
+     "gripper": "empty"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: pick left, place left\nCommand: pick left"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "empty",
+     "right": "red",
+     "plate": "blue",
+     "gripper": "green"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: put green block on plate\nCommand: pick right"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "empty",
+     "right": "red",
+     "plate": "blue",
+     "gripper": "green"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: Put the green block on the plate.\nCommand: pick middle"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "empty",
+     "right": "red",
+     "plate": "blue",
+     "gripper": "green"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: Put the green block on the plate.\nCommand: pick middle"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "empty",
+     "right": "red",
+     "plate": "blue",
+     "gripper": "green"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: Put the green block on the plate.\nCommand: pick middle"
+   }
+  ]
+ },
+ {
+  "seed": 9,
+  "layout": {
+   "left": "blue",
+   "middle": "red",
+   "right": "green"
+  },
+  "task": "Put the blue block on the plate.",
+  "commands": [
+   "pick middle -> holding a block",
+   "place plate -> released",
+   "pick left -> holding a block",
+   "pick right -> already holding a block",
+   "pick middle -> already holding a block",
+   "pick middle -> already holding a block",
+   "pick middle -> already holding a block"
+  ],
+  "success": false,
+  "declared_done": false,
+  "think_s": [
+   1.32,
+   1.33,
+   1.4,
+   1.4,
+   1.49,
+   1.65,
+   1.65
+  ],
+  "final_scene": {
+   "left": "empty",
+   "middle": "empty",
+   "right": "green",
+   "plate": "red",
+   "gripper": "blue"
+  },
+  "trace": [
+   {
+    "truth": {
+     "left": "blue",
+     "middle": "red",
+     "right": "green",
+     "plate": "empty",
+     "gripper": "empty"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: pick blue\nCommand: pick middle"
+   },
+   {
+    "truth": {
+     "left": "blue",
+     "middle": "empty",
+     "right": "green",
+     "plate": "empty",
+     "gripper": "red"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: place plate\nCommand: place plate"
+   },
+   {
+    "truth": {
+     "left": "blue",
+     "middle": "empty",
+     "right": "green",
+     "plate": "red",
+     "gripper": "empty"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: pick left, place left\nCommand: pick left"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "empty",
+     "right": "green",
+     "plate": "red",
+     "gripper": "blue"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: put blue block on plate\nCommand: pick right"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "empty",
+     "right": "green",
+     "plate": "red",
+     "gripper": "blue"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: put blue block on plate\nCommand: pick middle"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "empty",
+     "right": "green",
+     "plate": "red",
+     "gripper": "blue"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: Put the blue block on the plate.\nCommand: pick middle"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "empty",
+     "right": "green",
+     "plate": "red",
+     "gripper": "blue"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: Put the blue block on the plate.\nCommand: pick middle"
+   }
+  ]
+ },
+ {
+  "seed": 10,
+  "layout": {
+   "left": "blue",
+   "middle": "green",
+   "right": "red"
+  },
+  "task": "Put the green block on the plate, then stack the blue block on top of it.",
+  "commands": [
+   "(reply had no valid command; commands name places, e.g. pick left)",
+   "pick left -> holding a block",
+   "place plate -> released",
+   "pick middle -> holding a block",
+   "place left -> released",
+   "pick right -> holding a block",
+   "place plate -> released"
+  ],
+  "success": false,
+  "declared_done": false,
+  "think_s": [
+   1.66,
+   1.34,
+   1.58,
+   1.9,
+   1.91,
+   2.0,
+   2.01
+  ],
+  "final_scene": {
+   "left": "green",
+   "middle": "empty",
+   "right": "empty",
+   "plate": "blue,red",
+   "gripper": "empty"
+  },
+  "trace": [
+   {
+    "truth": {
+     "left": "blue",
+     "middle": "green",
+     "right": "red",
+     "plate": "empty",
+     "gripper": "empty"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: pick green, place green on plate, pick blue, place blue on green\nCommand: pick green"
+   },
+   {
+    "truth": {
+     "left": "blue",
+     "middle": "green",
+     "right": "red",
+     "plate": "empty",
+     "gripper": "empty"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: pick green\nCommand: pick left"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "green",
+     "right": "red",
+     "plate": "empty",
+     "gripper": "blue"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: place plate, pick middle, place middle\nCommand: place plate"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "green",
+     "right": "red",
+     "plate": "blue",
+     "gripper": "empty"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: put the green block on the plate, then stack the blue block on top of it.\nCommand: pick middle"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "empty",
+     "right": "red",
+     "plate": "blue",
+     "gripper": "green"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: Put the green block on the plate, then stack the blue block on top of it.\nCommand: place left"
+   },
+   {
+    "truth": {
+     "left": "green",
+     "middle": "empty",
+     "right": "red",
+     "plate": "blue",
+     "gripper": "empty"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: Put the green block on the plate, then stack the blue block on top of it.\nCommand: pick right"
+   },
+   {
+    "truth": {
+     "left": "green",
+     "middle": "empty",
+     "right": "empty",
+     "plate": "blue",
+     "gripper": "red"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: Put the green block on the plate, then stack the blue block on top of it.\nCommand: place plate"
+   }
+  ]
+ },
+ {
+  "seed": 11,
+  "layout": {
+   "left": "green",
+   "middle": "red",
+   "right": "blue"
+  },
+  "task": "Put the red block on the plate.",
+  "commands": [
+   "pick middle -> holding a block",
+   "place plate -> released",
+   "pick left -> holding a block",
+   "pick right -> already holding a block",
+   "pick middle -> already holding a block",
+   "pick middle -> already holding a block",
+   "pick middle -> already holding a block"
+  ],
+  "success": true,
+  "declared_done": false,
+  "think_s": [
+   1.56,
+   1.32,
+   1.41,
+   1.49,
+   1.55,
+   1.67,
+   1.67
+  ],
+  "final_scene": {
+   "left": "empty",
+   "middle": "empty",
+   "right": "blue",
+   "plate": "red",
+   "gripper": "green"
+  },
+  "trace": [
+   {
+    "truth": {
+     "left": "green",
+     "middle": "red",
+     "right": "blue",
+     "plate": "empty",
+     "gripper": "empty"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: Pick the red block and place it on the plate.\nCommand: pick middle"
+   },
+   {
+    "truth": {
+     "left": "green",
+     "middle": "empty",
+     "right": "blue",
+     "plate": "empty",
+     "gripper": "red"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: place plate\nCommand: place plate"
+   },
+   {
+    "truth": {
+     "left": "green",
+     "middle": "empty",
+     "right": "blue",
+     "plate": "red",
+     "gripper": "empty"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: pick left, place left\nCommand: pick left"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "empty",
+     "right": "blue",
+     "plate": "red",
+     "gripper": "green"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: Put the red block on the plate.\nCommand: pick right"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "empty",
+     "right": "blue",
+     "plate": "red",
+     "gripper": "green"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: Put the red block on the plate.\nCommand: pick middle"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "empty",
+     "right": "blue",
+     "plate": "red",
+     "gripper": "green"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: Put the red block on the plate.\nCommand: pick middle"
+   },
+   {
+    "truth": {
+     "left": "empty",
+     "middle": "empty",
+     "right": "blue",
+     "plate": "red",
+     "gripper": "green"
+    },
+    "scene": "(the camera is off; you have to guess where each colour is)",
+    "reply": "Left to do: Put the red block on the plate.\nCommand: pick middle"
+   }
+  ]
+ }
+]

@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PSllama: local AI inference on a PlayStation 5</title>
+  <style>
+    :root {
+      --bg: #ffffff; --panel: #f6f8fa; --line: #d1d9e0; --text: #1f2328; --muted: #59636e;
+      --link: #0969da; --ok: #1a7f37; --warn: #9a6700; --bad: #d1242f;
+      color-scheme: light;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0d1117; --panel: #151b23; --line: #3d444d; --text: #f0f6fc; --muted: #9198a1;
+        --link: #4493f8; --ok: #3fb950; --warn: #d29922; --bad: #f85149;
+        color-scheme: dark;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; background: var(--bg); color: var(--text);
+      font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+    }
+    .repo-bar { border-bottom: 1px solid var(--line); background: var(--panel); padding: 14px 16px; font-size: 14px; color: var(--muted); }
+    .repo-bar strong { color: var(--text); }
+    main { max-width: 980px; margin: 0 auto; padding: 24px 16px 64px; }
+    .readme { border: 1px solid var(--line); border-radius: 8px; padding: 8px 32px 32px; }
+    @media (max-width: 640px) { .readme { border: 0; padding: 0; } }
+    h1, h2, h3 { line-height: 1.25; margin: 28px 0 14px; font-weight: 600; }
+    h1 { font-size: 2em; padding-bottom: .3em; border-bottom: 1px solid var(--line); }
+    h2 { font-size: 1.5em; padding-bottom: .3em; border-bottom: 1px solid var(--line); margin-top: 40px; }
+    h3 { font-size: 1.2em; }
+    p, ul, ol, table, pre, figure, .gallery { margin: 0 0 16px; }
+    ul, ol { padding-left: 2em; }
+    li + li { margin-top: .25em; }
+    a { color: var(--link); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    code { font: 85%/1.45 ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace; background: var(--panel); padding: .2em .4em; border-radius: 6px; }
+    pre { background: var(--panel); border-radius: 6px; padding: 16px; overflow-x: auto; }
+    pre code { background: none; padding: 0; font-size: 85%; }
+    .table-wrap { overflow-x: auto; margin: 0 0 16px; }
+    table { border-collapse: collapse; width: max-content; max-width: 100%; margin: 0; }
+    th, td { border: 1px solid var(--line); padding: 6px 13px; text-align: left; vertical-align: top; }
+    th { background: var(--panel); font-weight: 600; }
+    td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .note { border-left: 4px solid var(--link); padding: 4px 16px; color: var(--muted); margin: 0 0 16px; }
+    .note.warn { border-color: var(--warn); }
+    .note strong { color: var(--text); }
+    .head { display: flex; gap: 20px; align-items: center; flex-wrap: wrap; margin-top: 24px; }
+    .head img { width: 96px; height: 96px; border-radius: 16px; }
+    .head h1 { border: 0; margin: 0; padding: 0; }
+    .head p { margin: 4px 0 0; color: var(--muted); }
+    .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+    .gallery.wide { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+    figure { margin: 0; }
+    figure img, figure video { width: 100%; display: block; border-radius: 6px; border: 1px solid var(--line); background: #000; }
+    figcaption { font-size: 13px; color: var(--muted); margin-top: 6px; }
+    audio { width: 100%; }
+    .toc { columns: 2; column-gap: 32px; }
+    @media (max-width: 640px) { .toc { columns: 1; } }
+    .ok { color: var(--ok); } .bad { color: var(--bad); }
+    footer { color: var(--muted); font-size: 14px; margin-top: 32px; }
+  </style>
+</head>
+<body>
+<div class="repo-bar"><strong>psllama</strong> / README</div>
+<main>
+<div class="readme">
+
+  <div class="head">
+    <img src="media/psllama-logo.png" alt="PSllama icon">
+    <div>
+      <h1>PSllama</h1>
+      <p>Local AI inference on a jailbroken PlayStation 5, through Vulkan.</p>
+    </div>
+  </div>
+
+  <p style="margin-top:20px">PSllama is a homebrew PS5 application that runs language, vision, speech, image, video and robot-policy models on the console's GPU and serves them over an OpenAI-style HTTP API. It is built from <a href="https://github.com/ggml-org/llama.cpp">llama.cpp</a>, <a href="https://github.com/leejet/stable-diffusion.cpp">stable-diffusion.cpp</a> and <a href="https://github.com/ggml-org/whisper.cpp">whisper.cpp</a>, all sharing one ggml Vulkan backend on the Mesa RADV driver from the <a href="https://github.com/mihawk-99/PS5_Vulkan">PS5_Vulkan</a> project.</p>
+
+  <div class="note warn"><strong>Status: experimental.</strong> Tested on one console (CFI-1208B, firmware 13.60). It needs a jailbroken PS5 and is not affiliated with or endorsed by Sony. Every number below was measured on that console; nothing here is a guarantee for other hardware or firmware.</div>
+
+  <h2 id="contents">Contents</h2>
+  <ul class="toc">
+    <li><a href="#what-works">What works</a></li>
+    <li><a href="#requirements">Requirements</a></li>
+    <li><a href="#install">How to install</a></li>
+    <li><a href="#usage">Usage</a></li>
+    <li><a href="#results">Results</a></li>
+    <li><a href="#media">Media</a></li>
+    <li><a href="#findings">Findings</a></li>
+    <li><a href="#limitations">Limitations and known issues</a></li>
+    <li><a href="#credits">Credits and license</a></li>
+  </ul>
+
+  <h2 id="what-works">What works</h2>
+  <div class="table-wrap"><table>
+    <tr><th>Capability</th><th>Engine</th><th>Largest or typical model tested</th><th>Headline measurement</th></tr>
+    <tr><td>Text generation</td><td>llama.cpp</td><td>Qwen3-30B-A3B (IQ2_XXS, 10.4 GB)</td><td>35 to 96 tok/s depending on the prompt</td></tr>
+    <tr><td>Image understanding</td><td>llama.cpp + mtmd</td><td>Gemma 3 12B, Qwen2.5-VL 7B</td><td>About 2.7 s per image before the answer starts</td></tr>
+    <tr><td>State-space models</td><td>llama.cpp</td><td>Falcon-H1 34B, Mamba-Codestral 7B, Mamba 1.4B</td><td>17 to 480 tok/s</td></tr>
+    <tr><td>Speech to text</td><td>whisper.cpp</td><td>Whisper large-v3-turbo</td><td>8 s of audio in 0.79 s</td></tr>
+    <tr><td>Text to speech</td><td>llama.cpp + mtmd</td><td>Qwen3-TTS 1.7B, with voice cloning</td><td>About 2× real time</td></tr>
+    <tr><td>Voice agent</td><td>all three</td><td>Whisper + Qwen3-4B + Qwen3-TTS</td><td>2.3 to 2.7 s to first audio when warm</td></tr>
+    <tr><td>Image generation and editing</td><td>stable-diffusion.cpp</td><td>FLUX.2-klein 4B, Z-Image-Turbo</td><td>17.6 s at 768×768 (FLUX.2-klein, 4 steps)</td></tr>
+    <tr><td>Video generation</td><td>stable-diffusion.cpp</td><td>HunyuanVideo 1.5 I2V, Wan 2.1 1.3B</td><td>17 frames at 416×224 in 107 s</td></tr>
+    <tr><td>Robot policy</td><td>llama.cpp + custom vision encoder</td><td>OpenVLA 7B (LIBERO-Spatial)</td><td>23 of 30 simulated tasks, 0.94 s per action</td></tr>
+  </table></div>
+
+  <h2 id="requirements">Requirements</h2>
+  <ul>
+    <li><strong>Console:</strong> a jailbroken PS5 with a payload loader. Tested on CFI-1208B, firmware 13.60.</li>
+    <li><strong>Payloads on the console:</strong> an ELF loader (<code>elfldr</code>), an FTP server (<code>ftpsrv</code>) and <code>ShadowMount+</code> to register and mount the app folder. <code>shsrv</code> (shell) and <code>klogsrv</code> (kernel log) are needed for development.</li>
+    <li><strong>Build host:</strong> Linux x86-64 with the PS5_Vulkan toolchain and its RADV build, <code>cmake</code>, <code>clang</code> and <code>glslc</code>.</li>
+    <li><strong>Storage:</strong> the application is about 115 MB. Models are 0.1 to 14 GB each.</li>
+    <li><strong>Network:</strong> the server only answers clients on a Tailscale network (100.64.0.0/10) and requires an API key.</li>
+  </ul>
+  <p>Memory to plan around: the console has 16 GB shared between CPU and GPU. The app gets a 12 GiB Vulkan heap plus about 2.3 GB on the CPU side, so a model and its working memory must fit in roughly 12 GiB.</p>
+
+  <h2 id="install">How to install</h2>
+  <div class="note">There is no prebuilt package. These are the steps used during development; paths are relative to the repository.</div>
+
+  <h3>1. Prepare the build host</h3>
+  <ol>
+    <li>Set up <a href="https://github.com/mihawk-99/PS5_Vulkan">PS5_Vulkan</a> and build its RADV driver (<code>tools/build-radv.sh</code>). The driver ships as source, not as a prebuilt library.</li>
+    <li>Check out the three engines at the revisions PSllama was developed against:
+      <div class="table-wrap" style="margin-top:8px"><table>
+        <tr><th>Project</th><th>Revision</th></tr>
+        <tr><td>llama.cpp</td><td><code>552f18f91</code></td></tr>
+        <tr><td>stable-diffusion.cpp</td><td><code>f89d9b1</code></td></tr>
+        <tr><td>whisper.cpp</td><td><code>d1be6fd</code></td></tr>
+      </table></div>
+    </li>
+    <li>Apply <code>patches/llama.cpp/psllama-vs-552f18f91.patch</code> to llama.cpp and copy <code>ssm_scan_mamba1.comp</code> into <code>ggml/src/ggml-vulkan/vulkan-shaders/</code>. Together they cover the sampler fix, the memory-budget override and the Mamba-1 GPU scan.</li>
+  </ol>
+
+  <h3>2. Build</h3>
+  <ol>
+    <li>Cross-build llama.cpp with the Vulkan backend for the PS5, with <code>-DGGML_MAX_NAME=160</code> and the multimodal library enabled. stable-diffusion.cpp needs the longer tensor names, and all three engines must share this one ggml build.</li>
+    <li>Build stable-diffusion.cpp against that same ggml using <code>app/sd/CMakeLists.txt</code>.</li>
+    <li>Build the application. The API key is given here and compiled in:</li>
+  </ol>
+<pre><code>cd app
+PSLLAMA_API_KEY="$(openssl rand -hex 32)" \
+PS5_VULKAN_ROOT=/path/to/ps5-vulkan \
+LLAMA_SOURCE=/path/to/llama.cpp \
+LLAMA_BUILD=/path/to/llama.cpp/build-ps5 \
+SD_SOURCE=/path/to/stable-diffusion.cpp \
+SD_BUILD=/path/to/sd-build-ps5 \
+WHISPER_SOURCE=/path/to/whisper.cpp \
+OUT=$PWD/out/my-build \
+bash ./build-gguf-vk-title.sh</code></pre>
+  <p>The result is <code>out/my-build/eboot.bin</code> plus an <code>sce_module</code> folder. The build takes about a minute once the libraries exist.</p>
+
+  <h3>3. Install on the console</h3>
+  <ol>
+    <li>Create the app folder, for example <code>/data/homebrew/PPSA99005/</code>, and upload <code>eboot.bin</code> and <code>sce_module/</code> to it over FTP.</li>
+    <li>Add <code>sce_sys/param.json</code> (title id and name) and <code>sce_sys/icon0.png</code> (512×512). The app will not register without an icon.</li>
+    <li>Reboot and re-jailbreak. ShadowMount+ registers app folders when it starts; registering a new title later in the same session failed for us.</li>
+    <li>Create <code>vk-env.conf</code> in the app folder with these two settings:</li>
+  </ol>
+<pre><code>GGML_VK_IGNORE_MEMORY_BUDGET=1
+GGML_VK_SUBALLOCATION_BLOCK_SIZE=268435456</code></pre>
+  <p>The first works around memory counters that only ever grow on this driver. The second (256 MB blocks) avoids allocation failures after switching models.</p>
+
+  <h3>4. Add models</h3>
+  <p>Upload model files into the app folder over FTP. The console sees that folder as <code>/app0</code>.</p>
+  <div class="table-wrap"><table>
+    <tr><th>Kind</th><th>Layout in the app folder</th></tr>
+    <tr><td>Language model</td><td><code>&lt;name&gt;.gguf</code></td></tr>
+    <tr><td>Vision projector for a language model</td><td><code>&lt;name&gt;.mmproj.gguf</code>, next to <code>&lt;name&gt;.gguf</code></td></tr>
+    <tr><td>Image or video model</td><td>A folder with the model files and an <code>sd-model.conf</code> naming them (examples in <code>app/sd/models/</code>)</td></tr>
+    <tr><td>Speech to text</td><td><code>whisper/ggml-large-v3-turbo-q5_0.bin</code></td></tr>
+    <tr><td>Text to speech</td><td><code>qwen3-tts-1.7b/</code> with the model and its projector</td></tr>
+    <tr><td>OpenVLA</td><td><code>&lt;name&gt;.gguf</code> (language model) and <code>&lt;name&gt;/dinov2.gguf</code>, <code>siglip.gguf</code>, <code>proj.gguf</code></td></tr>
+  </table></div>
+
+  <h3>5. Start and check</h3>
+  <p>Launch the app from the home screen, then, from a machine on the same Tailscale network:</p>
+<pre><code>curl -H "Authorization: Bearer $PSLLAMA_API_KEY" http://$PS5_HOST:8081/health</code></pre>
+  <p>It reports which models are loaded. The first launch loads the default model, which takes about 100 seconds.</p>
+
+  <h2 id="usage">Usage</h2>
+  <p>All endpoints need the <code>Authorization: Bearer</code> header. Chat follows the OpenAI format, so existing clients work by pointing them at the console.</p>
+  <div class="table-wrap"><table>
+    <tr><th>Endpoint</th><th>Purpose</th></tr>
+    <tr><td><code>GET /health</code></td><td>What is loaded, and with which settings</td></tr>
+    <tr><td><code>GET /v1/models</code></td><td>Language models in the app folder</td></tr>
+    <tr><td><code>POST /v1/models/load</code></td><td>Load a language model; with <code>"stream": true</code> it reports progress</td></tr>
+    <tr><td><code>POST /v1/chat/completions</code></td><td>Chat, streaming or not; accepts images as <code>image_url</code> parts when the model has a projector</td></tr>
+    <tr><td><code>POST /v1/images/generations</code></td><td>Text to image; <code>ref_images_b64</code> for editing, <code>init_image_b64</code> for image to image</td></tr>
+    <tr><td><code>POST /v1/videos/generations</code></td><td>Text or image to video; returns PNG frames</td></tr>
+    <tr><td><code>POST /v1/audio/transcriptions</code></td><td>Speech to text from a WAV file</td></tr>
+    <tr><td><code>POST /v1/audio/speech</code></td><td>Text to speech, optionally in a reference voice</td></tr>
+    <tr><td><code>POST /v1/voice/chat</code></td><td>One spoken turn: speech in, streamed text and speech out</td></tr>
+    <tr><td><code>POST /v1/vla/act</code></td><td>One OpenVLA control step: a 224×224 image and an instruction in, seven action values out</td></tr>
+  </table></div>
+<pre><code># Chat
+curl http://$PS5_HOST:8081/v1/chat/completions \
+  -H "Authorization: Bearer $PSLLAMA_API_KEY" -H "Content-Type: application/json" \
+  -d '{"messages": [{"role": "user", "content": "Hello"}], "max_tokens": 64}'
+
+# Load a model with progress events
+curl -N http://$PS5_HOST:8081/v1/models/load \
+  -H "Authorization: Bearer $PSLLAMA_API_KEY" -H "Content-Type: application/json" \
+  -d '{"model": "Qwen3-4B-Q4_K_M.gguf", "context_tokens": 4096, "stream": true}'
+
+# Generate an image
+curl http://$PS5_HOST:8081/v1/images/generations \
+  -H "Authorization: Bearer $PSLLAMA_API_KEY" -H "Content-Type: application/json" \
+  -d '{"model": "flux2-klein-4b", "prompt": "a red fox in fresh snow", "size": "768x768"}'</code></pre>
+  <p>Only one request runs at a time. Image and video models take the whole GPU, so the language model is unloaded for them and reloaded on the next chat request. Speech models and a language model under 5 GB stay loaded together.</p>
+
+  <h2 id="results">Results</h2>
+  <p>Measured on a base PS5 (CFI-1208B). Language-model rates are greedy decoding at a 4,096-token context unless stated.</p>
+
+  <h3>Language models</h3>
+  <div class="table-wrap"><table>
+    <tr><th>Model</th><th>File</th><th class="num">Size</th><th class="num">Generation</th><th>Notes</th></tr>
+    <tr><td>Qwen3-4B</td><td>Q4_K_M</td><td class="num">2.5 GB</td><td class="num">about 70 tok/s</td><td>Used by the voice agent</td></tr>
+    <tr><td>Qwen2.5-VL 7B</td><td>Q4_K_M</td><td class="num">4.7 GB</td><td class="num">62 tok/s</td><td>Needs a q8_0 or f16 KV cache (see Findings)</td></tr>
+    <tr><td>Gemma 3 12B</td><td>Q4_K_M</td><td class="num">7.3 GB</td><td class="num">36 to 39 tok/s</td><td>Largest context that fit: 30,720 tokens</td></tr>
+    <tr><td>Gemma 3 27B</td><td>UD-IQ2_XXS</td><td class="num">7.9 GB</td><td class="num">20.8 tok/s</td><td></td></tr>
+    <tr><td>Qwen3-30B-A3B (mixture of experts)</td><td>UD-IQ2_XXS</td><td class="num">10.4 GB</td><td class="num">35 to 96 tok/s</td><td>Varies with the prompt; largest context that fit: 28,672 tokens</td></tr>
+  </table></div>
+  <p>A working rule for Q4_K files on this GPU: time per token is about 3.3 ms plus the file size divided by 386 GB/s. The heavily compressed IQ2 formats run at roughly half that memory rate.</p>
+
+  <h3>State-space models</h3>
+  <div class="table-wrap"><table>
+    <tr><th>Model</th><th>Type</th><th class="num">Size</th><th class="num">GPU, writing</th><th class="num">CPU, writing</th><th class="num">GPU, reading a 3,300-token prompt</th></tr>
+    <tr><td>Mamba 130M</td><td>Mamba-1</td><td class="num">0.09 GB</td><td class="num">480 tok/s</td><td class="num">137 tok/s</td><td class="num">8,920 tok/s</td></tr>
+    <tr><td>Mamba 1.4B Instruct</td><td>Mamba-1</td><td class="num">0.82 GB</td><td class="num">160 tok/s</td><td class="num">24 tok/s</td><td class="num">1,657 tok/s</td></tr>
+    <tr><td>mamba2-130m</td><td>Mamba-2</td><td class="num">0.18 GB</td><td class="num">480 tok/s</td><td class="num">137 tok/s</td><td class="num">11,394 tok/s</td></tr>
+    <tr><td>Granite 4.0 H 350M</td><td>Mamba-2 hybrid</td><td class="num">0.22 GB</td><td class="num">180 to 214 tok/s</td><td class="num">39 to 44 tok/s</td><td class="num">5,106 tok/s</td></tr>
+    <tr><td>Falcon-H1 0.5B Instruct</td><td>Mamba-2 hybrid</td><td class="num">0.31 GB</td><td class="num">183 to 192 tok/s</td><td class="num">34 to 63 tok/s</td><td class="num">2,566 tok/s</td></tr>
+    <tr><td>Mamba-Codestral 7B</td><td>Mamba-2</td><td class="num">4.15 GB</td><td class="num">54 to 56 tok/s</td><td class="num">5.4 tok/s</td><td class="num">326 tok/s</td></tr>
+    <tr><td>Falcon-H1 34B Instruct (IQ2_XXS)</td><td>Mamba-2 hybrid</td><td class="num">9.49 GB</td><td class="num">16 to 17 tok/s</td><td class="num">1.2 tok/s</td><td class="num">94 tok/s</td></tr>
+  </table></div>
+  <p>Mamba-2 models ran on the GPU without changes. Mamba-1 needed a new GPU shader; before it, Mamba 1.4B wrote 26 tok/s. Writing speed does not fall as the prompt grows, because these models keep a fixed-size state (14 MiB for Mamba 1.4B) where a transformer keeps a cache that grows with every token.</p>
+
+  <h3>Robot policy: OpenVLA on LIBERO-Spatial</h3>
+  <p>OpenVLA (LIBERO-Spatial fine-tune, Llama-2 7B at Q4_K_M) runs on the console; the LIBERO simulator runs on a separate Linux machine and sends one camera frame per control step.</p>
+  <div class="table-wrap"><table>
+    <tr><th>Measure</th><th>Result</th></tr>
+    <tr><td>Episodes completed</td><td>23 of 30 (77%), 10 tasks × 3 tries</td></tr>
+    <tr><td>Published result for this checkpoint</td><td>84.7% over 500 episodes at full precision</td></tr>
+    <tr><td>Time per control step on the console</td><td>0.94 s (image encoder 0.16 s, prompt 0.68 s, action tokens 0.10 s)</td></tr>
+    <tr><td>Steps per successful episode</td><td>112 on average, about 2 minutes</td></tr>
+  </table></div>
+  <p>With 30 episodes the uncertainty is roughly ±15 points, so this is consistent with the published figure but does not establish that 4-bit weights cost nothing. Per-task results: tasks 0, 1, 3 and 7 succeeded 3 of 3; tasks 2, 5, 6, 8 and 9 succeeded 2 of 3; task 4 (bowl in a drawer) 1 of 3.</p>
+
+  <h3>Images</h3>
+  <div class="table-wrap"><table>
+    <tr><th>Model</th><th>Settings</th><th class="num">Time once loaded</th></tr>
+    <tr><td>SD-Turbo</td><td>512×512, 1 step</td><td class="num">0.9 s</td></tr>
+    <tr><td>FLUX.2-klein 4B (Q8_0)</td><td>768×768, 4 steps</td><td class="num">17.6 s</td></tr>
+    <tr><td>FLUX.2-klein 4B, editing from a reference image</td><td>512×512, 4 steps</td><td class="num">13.8 s</td></tr>
+    <tr><td>Z-Image-Turbo (Q8_0)</td><td>512 / 768 / 1024 square, 8 steps</td><td class="num">18 / 42 / 80 s</td></tr>
+    <tr><td>ERNIE-Image-Turbo (Q6_K)</td><td>768×768, 8 steps</td><td class="num">66 s</td></tr>
+  </table></div>
+
+  <h3>Video</h3>
+  <div class="table-wrap"><table>
+    <tr><th>Model</th><th>Output</th><th class="num">Time</th></tr>
+    <tr><td>Wan 2.1 T2V 1.3B</td><td>9 frames, 416×240, 20 steps</td><td class="num">about 60 s</td></tr>
+    <tr><td>HunyuanVideo 1.5 I2V 480p (Q4_K_M)</td><td>17 frames, 416×224, 20 steps</td><td class="num">107 s</td></tr>
+    <tr><td>HunyuanVideo 1.5 I2V 480p</td><td>33 frames, 832×480</td><td class="num">2,136 s (36 minutes)</td></tr>
+  </table></div>
+  <p>HunyuanVideo's files total 13.6 GB, more than the heap. It runs by keeping the text encoder, vision encoder and VAE on disk and loading each only while it is needed.</p>
+
+  <h3>Speech</h3>
+  <div class="table-wrap"><table>
+    <tr><th>Task</th><th>Result</th></tr>
+    <tr><td>Whisper large-v3-turbo</td><td>8 s of audio transcribed in 0.79 s</td></tr>
+    <tr><td>Qwen3-TTS 1.7B</td><td>About 2× real time (7.0 s of speech in 3.5 s), with or without a reference voice</td></tr>
+    <tr><td>Voice agent, warm</td><td>2.3 to 2.7 s from end of speech to first audio</td></tr>
+    <tr><td>Voice agent, after image or video work</td><td>About 50 s for the first turn while three models reload</td></tr>
+  </table></div>
+
+  <h2 id="media">Media</h2>
+  <p>Everything shown here was produced on the console. Files are under <code>media/</code>, <code>video/</code> and <code>audio/</code>.</p>
+
+  <h3>OpenVLA driving a simulated arm (LIBERO-Spatial)</h3>
+  <div class="gallery">
+    <figure><img src="media/libero-openvla/task0-trial0-ok.gif" alt="Task 0 replay" loading="lazy"><figcaption>Task 0: bowl between the plate and the ramekin. Completed in 88 steps.</figcaption></figure>
+    <figure><img src="media/libero-openvla/task3-trial0-ok.gif" alt="Task 3 replay" loading="lazy"><figcaption>Task 3: bowl on the cookie box. Completed.</figcaption></figure>
+    <figure><img src="media/libero-openvla/task7-trial0-ok.gif" alt="Task 7 replay" loading="lazy"><figcaption>Task 7: bowl on the stove. Completed.</figcaption></figure>
+    <figure><img src="media/libero-openvla/task2-trial0-fail.gif" alt="Task 2 replay, failed" loading="lazy"><figcaption>Task 2, first try: a failure. It ran to the 220-step limit.</figcaption></figure>
+  </div>
+
+  <h3>Image generation</h3>
+  <div class="gallery">
+    <figure><img src="media/compare-20261010/sd-turbo-fp16-fox.png" alt="SD-Turbo fox" loading="lazy"><figcaption>SD-Turbo, 512×512, 1 step</figcaption></figure>
+    <figure><img src="media/compare-20261010/flux2-klein-4b-fox.png" alt="FLUX.2-klein fox" loading="lazy"><figcaption>FLUX.2-klein 4B, 768×768, 4 steps</figcaption></figure>
+    <figure><img src="media/compare-20261010/z-image-turbo-fox.png" alt="Z-Image-Turbo fox" loading="lazy"><figcaption>Z-Image-Turbo, 768×768, 8 steps</figcaption></figure>
+    <figure><img src="media/compare-20261010/ernie-image-turbo-fox.png" alt="ERNIE-Image-Turbo fox" loading="lazy"><figcaption>ERNIE-Image-Turbo, 768×768, 8 steps</figcaption></figure>
+  </div>
+
+  <h3>Image editing (FLUX.2-klein)</h3>
+  <div class="gallery">
+    <figure><img src="media/edit-test/1-base.png" alt="Base image" loading="lazy"><figcaption>Generated base image</figcaption></figure>
+    <figure><img src="media/edit-test/2-ref-edit.png" alt="Reference edit" loading="lazy"><figcaption>Reference edit: "the same fox wearing a blue knitted scarf, in a neon-lit city street at night"</figcaption></figure>
+    <figure><img src="media/edit-test/3-img2img.png" alt="Image to image" loading="lazy"><figcaption>Image to image at strength 0.6 with a "watercolor" prompt; it barely changes on a 4-step model</figcaption></figure>
+  </div>
+
+  <h3>Video</h3>
+  <div class="gallery wide">
+    <figure><video src="video/ps5-wan2.1-1.3b-fox-9frames.mp4" controls loop muted playsinline></video><figcaption>Wan 2.1 T2V 1.3B: 9 frames, 416×240</figcaption></figure>
+    <figure><video src="video/ps5-hunyuanvideo1.5-i2v-fox-17frames.mp4" controls loop muted playsinline></video><figcaption>HunyuanVideo 1.5 I2V: 17 frames, 416×224, from a still image</figcaption></figure>
+    <figure><video src="video/ps5-wan2.2-5b-i2v-fox-17frames.mp4" controls loop muted playsinline></video><figcaption>Wan 2.2 TI2V 5B: 17 frames; poor at this small size</figcaption></figure>
+    <figure><video src="video/ps5-clip.mp4" controls loop muted playsinline></video><figcaption>HunyuanVideo 1.5 at 832×480, exported from the web interface</figcaption></figure>
+  </div>
+
+  <h3>Speech</h3>
+  <div class="gallery wide">
+    <figure><audio src="media/voice-test/turn1-reply.wav" controls></audio><figcaption>Voice agent reply, turn 1 (question: the capital of France)</figcaption></figure>
+    <figure><audio src="media/voice-test/turn2-reply.wav" controls></audio><figcaption>Voice agent reply, turn 2, using the conversation so far</figcaption></figure>
+    <figure><audio src="audio/ps5-qwen3-tts-default-voice.wav" controls></audio><figcaption>Qwen3-TTS, default voice</figcaption></figure>
+    <figure><audio src="audio/ps5-qwen3-tts-cloned-voice.wav" controls></audio><figcaption>Qwen3-TTS copying a reference voice</figcaption></figure>
+  </div>
+
+  <h2 id="findings">Findings</h2>
+  <p>Things learned about this hardware and driver that shaped the code. The working log with dates, commands and dead ends is <code>FINDINGS.md</code>.</p>
+
+  <h3>Memory</h3>
+  <ol>
+    <li><strong>The driver's memory-budget counters only grow.</strong> After a few model swaps they report zero free memory and loads fail although the heap is empty. <code>GGML_VK_IGNORE_MEMORY_BUDGET=1</code> (a small patch) makes the backend ignore them.</li>
+    <li><strong>Each Vulkan allocation must be one contiguous range.</strong> The default 1 GiB blocks stop fitting after models of different sizes have come and gone. 256 MB blocks fixed it with no measurable speed change.</li>
+    <li><strong>Reading GPU memory from the CPU is very slow.</strong> For the memory types the GPU uses, the CPU writes at about 26 GB/s but reads at about 49 MB/s. Anything that copies results back to the CPU each token has to be kept small.</li>
+    <li><strong>A vision projector can ask for far more than it needs.</strong> Qwen2.5-VL's projector sizes its buffers for a 1288×1288 image at load time; beside a 7B model and two speech models that allocation failed and the app crashed. The server now frees the speech models first and caps images at 1,024 tokens.</li>
+  </ol>
+
+  <h3>Speed</h3>
+  <ol>
+    <li><strong>Text generation is limited by memory bandwidth</strong>, which is why time per token tracks file size so closely.</li>
+    <li><strong>Image generation is limited by compute.</strong> Z-Image-Turbo took the same time at Q8_0 and at Q4_K.</li>
+    <li><strong>Low-temperature sampling was twice as slow as it should be.</strong> The console's math library takes about 75 ns for <code>expf</code> when the result underflows, and a sampler calls it for every token in the vocabulary. Skipping the call below −104 fixed it.</li>
+    <li><strong>One long GPU submission is killed after about 10 seconds.</strong> Prompt evaluation is split into small batches, and large image decodes are tiled, to stay under that.</li>
+  </ol>
+
+  <h3>Model-specific</h3>
+  <ol>
+    <li><strong>A 4-bit KV cache breaks Qwen2.5-VL.</strong> With <code>q4_0</code> it produces garbage or stops after a few tokens, even on text-only prompts; <code>q8_0</code> and <code>f16</code> are correct. Other models tested are fine at <code>q4_0</code>. The cause was not investigated.</li>
+    <li><strong>Mamba-1 ran at CPU speed until it got its own shader.</strong> The backend's state-space scan only handled Mamba-2, so every Mamba-1 layer bounced to the CPU (98 graph splits). A scan shader for Mamba-1 brought that to 2 splits and 160 tok/s at 1.4B.</li>
+    <li><strong>A long instruction prompt makes a vision model describe what it expects.</strong> Asked to describe a scene and choose an action in one prompt, Gemma 3 reported what the task wanted, not what the image showed. Separate "describe" and "decide" calls fixed the descriptions.</li>
+    <li><strong>A general vision model is a weak robot controller.</strong> With scripted arm motions and Gemma 3 or Qwen2.5-VL choosing the steps, 5 of 12 tasks completed (2 of 12 without the image). Both models picked the right object first and then failed to sequence or stop. OpenVLA, trained for the job, completed 23 of 30 on harder tasks.</li>
+  </ol>
+
+  <h3>Console and tooling</h3>
+  <ol>
+    <li><strong>The app can become unlaunchable until a reboot.</strong> The launcher then answers <code>0x80940033</code> ("Can't start the game or app"). It happened once after a crash and once after editing the app's registered name and icon. ShadowMount's log shows why nothing can be registered in that state: <code>AppInstallTitleDir bridge unavailable</code>.</li>
+    <li><strong>To rename the app,</strong> change <code>param.json</code> and <code>icon0.png</code> in the source folder only, uninstall it in ShadowMount (never "Delete source"), and reboot.</li>
+    <li><strong>The console's FTP server is unreliable for existence checks.</strong> <code>SIZE</code> answers for files that are not there, and <code>NLST</code> and <code>MDTM</code> are missing. Use <code>LIST</code>. It also decrypts executables on download, so a re-downloaded <code>eboot.bin</code> must be compared with the unsigned ELF.</li>
+    <li><strong>Only one process can read the kernel log.</strong> Two readers split the stream between them, so development uses a single recorder that writes to files.</li>
+  </ol>
+
+  <h2 id="limitations">Limitations and known issues</h2>
+  <ul>
+    <li>One request at a time, and one large model at a time.</li>
+    <li>The API key is fixed at build time; changing it means rebuilding.</li>
+    <li>No raw text-completion endpoint, so models without the ChatML prompt format cannot be prompted properly yet.</li>
+    <li>Switching from image or video work back to voice costs about 50 seconds.</li>
+    <li>A crash in the app can require rebooting and re-jailbreaking the console.</li>
+    <li>Video output is PNG frames; encoding into a clip is left to the client.</li>
+    <li>OpenVLA was evaluated on one suite with 30 episodes. Other suites, a wrist camera and action chunking are untested.</li>
+    <li>RWKV and Jamba have not been run.</li>
+  </ul>
+
+  <h2 id="credits">Credits and license</h2>
+  <ul>
+    <li><a href="https://github.com/mihawk-99/PS5_Vulkan">PS5_Vulkan</a> for the Vulkan driver port and build tooling that this depends on.</li>
+    <li><a href="https://github.com/ggml-org/llama.cpp">llama.cpp</a>, <a href="https://github.com/leejet/stable-diffusion.cpp">stable-diffusion.cpp</a> and <a href="https://github.com/ggml-org/whisper.cpp">whisper.cpp</a> for the inference engines.</li>
+    <li><a href="https://github.com/openvla/openvla">OpenVLA</a> and <a href="https://github.com/Lifelong-Robot-Learning/LIBERO">LIBERO</a> for the robot policy and benchmark.</li>
+    <li>The PS5 homebrew community for the loader, FTP, shell, log and ShadowMount payloads.</li>
+  </ul>
+  <p>PSllama's own source files are GPL-3.0-or-later. Models keep their own licenses. "PlayStation" and "PS5" are trademarks of Sony Interactive Entertainment; this project has no connection to Sony.</p>
+
+  <footer>Created by Ashar Rai Mujeeb. Measurements taken in October 2026 on a CFI-1208B console, firmware 13.60.</footer>
+</div>
+</main>
+</body>
+</html>

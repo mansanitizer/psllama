@@ -1,0 +1,18 @@
+{
+ "label": "D 20 nodes per submit",
+ "env": {
+  "GGML_VK_MAX_NODES_PER_SUBMIT": 20,
+  "PS5_PROBE_LOGITS": 1
+ },
+ "models": [
+  {
+   "model": "Qwen3-4B-Q4_K_M.gguf"
+  }
+ ],
+ "variants": [
+  "greedy"
+ ],
+ "restore": {
+  "model": "gemma4_12b_abliterated_Q4_K_M.gguf"
+ }
+}

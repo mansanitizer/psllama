@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b0d12" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>PS5 Lab</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css" />
+  <link rel="stylesheet" href="app.css" />
+</head>
+<body>
+<div id="app">
+
+  <header class="top">
+    <div class="brand">PS5 Lab</div>
+    <button id="statusBtn" class="status" type="button" aria-label="PS5 status and models">
+      <span class="dot" id="statusDot"></span>
+      <span id="statusText">Connecting…</span>
+      <svg class="ico sm" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+    </button>
+    <button id="settingsBtn" class="icon-btn" type="button" aria-label="Settings">
+      <svg class="ico" viewBox="0 0 24 24"><path d="M4 6h10M18 6h2M4 12h2M10 12h10M4 18h12"/><circle cx="16" cy="6" r="2"/><circle cx="8" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg>
+    </button>
+  </header>
+
+  <nav class="tabs" id="tabs" aria-label="Sections">
+    <button type="button" data-tab="chat" class="active">
+      <svg class="ico" viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/></svg><span>Chat</span>
+    </button>
+    <button type="button" data-tab="voice">
+      <svg class="ico" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v3"/></svg><span>Voice</span>
+    </button>
+    <button type="button" data-tab="image">
+      <svg class="ico" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="M21 16l-5-5-8 9"/></svg><span>Image</span>
+    </button>
+    <button type="button" data-tab="video">
+      <svg class="ico" viewBox="0 0 24 24"><rect x="3" y="5" width="13" height="14" rx="2"/><path d="M16 10l5-3v10l-5-3z"/></svg><span>Video</span>
+    </button>
+    <button type="button" data-tab="audio">
+      <svg class="ico" viewBox="0 0 24 24"><path d="M4 10v4M8 6v12M12 3v18M16 7v10M20 10v4"/></svg><span>Audio</span>
+    </button>
+  </nav>
+
+  <main>
+    <!-- Chat -->
+    <section class="view active" id="view-chat">
+      <div class="scroll" id="chatScroll">
+        <div class="col" id="chatList"></div>
+      </div>
+      <form class="composer" id="chatForm">
+        <div class="composer-box">
+          <textarea id="chatInput" rows="1" placeholder="Message the PS5…" enterkeyhint="send"></textarea>
+          <div class="composer-row">
+            <button type="button" class="chip" id="toolsToggle" aria-pressed="false">Tools</button>
+            <button type="button" class="chip" id="chatClear">New chat</button>
+            <span class="grow"></span>
+            <img id="chatImageThumb" class="thumb small" alt="Attached image; tap to remove" hidden />
+            <input type="file" id="chatImageFile" accept="image/*" hidden />
+            <button type="button" class="icon-btn" id="chatImage" aria-label="Attach an image">
+              <svg class="ico" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="M21 16l-5-5-8 9"/></svg>
+            </button>
+            <button type="button" class="icon-btn" id="chatMic" aria-label="Dictate">
+              <svg class="ico" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v3"/></svg>
+            </button>
+            <button type="submit" class="send" id="chatSend" aria-label="Send">
+              <svg class="ico" viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+            </button>
+          </div>
+        </div>
+      </form>
+    </section>
+
+    <!-- Voice -->
+    <section class="view" id="view-voice">
+      <div class="scroll" id="voiceScroll">
+        <div class="col" id="voiceList"></div>
+      </div>
+      <div class="voice-dock">
+        <div class="voice-status" id="voiceStatus">Tap the mic and talk</div>
+        <div class="voice-controls">
+          <button type="button" class="chip" id="voiceClear">New</button>
+          <button type="button" class="mic" id="voiceMic" aria-label="Talk">
+            <span class="mic-level" id="voiceLevel"></span>
+            <svg class="ico lg" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v3"/></svg>
+          </button>
+          <button type="button" class="chip" id="voiceHandsFree" aria-pressed="false">Hands-free</button>
+        </div>
+        <div class="hint" id="voiceHint"></div>
+      </div>
+    </section>
+
+    <!-- Image -->
+    <section class="view" id="view-image">
+      <div class="scroll">
+        <div class="col">
+          <div class="card">
+            <textarea id="imgPrompt" rows="3" placeholder="Describe the image…"></textarea>
+            <div class="row wrap">
+              <button type="button" class="chip" id="imgSourceBtn">Edit an image</button>
+              <input type="file" id="imgSourceFile" accept="image/*" hidden />
+              <img id="imgSourceThumb" class="thumb" alt="" hidden />
+              <select id="imgStrength" class="compact" hidden aria-label="How much to change">
+                <option value="0.45">Change a little</option>
+                <option value="0.65" selected>Change a fair amount</option>
+                <option value="0.85">Change a lot</option>
+              </select>
+            </div>
+            <div class="fields">
+              <label>Model<select id="imgModel"></select></label>
+              <label>Size<select id="imgSize"></select></label>
+              <label>Steps<input id="imgSteps" type="number" min="1" max="50" inputmode="numeric" /></label>
+              <label>Seed<input id="imgSeed" type="number" min="0" placeholder="random" inputmode="numeric" /></label>
+            </div>
+            <details class="more">
+              <summary>Negative prompt</summary>
+              <textarea id="imgNegative" rows="2" placeholder="Things to avoid"></textarea>
+            </details>
+            <div class="hint" id="imgModelHint"></div>
+            <button type="button" class="btn primary" id="imgGo" data-run>Generate</button>
+            <div class="progress" id="imgProgress" hidden><div class="bar"><i></i></div><span></span></div>
+          </div>
+          <div class="grid" id="imgGrid"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Video -->
+    <section class="view" id="view-video">
+      <div class="scroll">
+        <div class="col">
+          <div class="card">
+            <textarea id="vidPrompt" rows="3" placeholder="Describe the clip…"></textarea>
+            <div class="fields">
+              <label>Model<select id="vidModel"></select></label>
+              <label>Size<select id="vidSize"></select></label>
+              <label>Frames<select id="vidFrames"></select></label>
+              <label>Steps<input id="vidSteps" type="number" min="1" max="50" inputmode="numeric" /></label>
+            </div>
+            <div class="row">
+              <button type="button" class="chip" id="vidImageBtn">Add first frame</button>
+              <input type="file" id="vidImageFile" accept="image/*" hidden />
+              <img id="vidImageThumb" class="thumb" alt="" hidden />
+            </div>
+            <div class="hint" id="vidModelHint"></div>
+            <button type="button" class="btn primary" id="vidGo" data-run>Generate</button>
+            <div class="progress" id="vidProgress" hidden><div class="bar"><i></i></div><span></span></div>
+          </div>
+          <div id="vidResults" class="stack"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Audio -->
+    <section class="view" id="view-audio">
+      <div class="scroll">
+        <div class="col">
+          <div class="card">
+            <h2>Speech to text</h2>
+            <div class="row wrap">
+              <button type="button" class="btn primary" id="sttRecord" data-run>Record</button>
+              <button type="button" class="btn" id="sttUpload" data-run>Choose audio file</button>
+              <input type="file" id="sttFile" accept="audio/*,video/*" hidden />
+              <span class="hint grow" id="sttInfo"></span>
+            </div>
+            <textarea id="sttText" rows="4" placeholder="The transcript appears here"></textarea>
+            <div class="row">
+              <button type="button" class="chip" id="sttCopy">Copy</button>
+              <button type="button" class="chip" id="sttToChat">Send to chat</button>
+            </div>
+          </div>
+          <div class="card">
+            <h2>Text to speech</h2>
+            <textarea id="ttsText" rows="4" placeholder="Text to speak"></textarea>
+            <div class="row wrap">
+              <button type="button" class="chip" id="ttsVoiceBtn">Clone a voice</button>
+              <input type="file" id="ttsVoiceFile" accept="audio/*" hidden />
+              <span class="hint grow" id="ttsInfo">Default voice</span>
+              <button type="button" class="btn primary" id="ttsGo" data-run>Speak</button>
+            </div>
+            <div id="ttsOut" class="stack"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- Models sheet -->
+<dialog id="modelsSheet" class="sheet">
+  <header><h2>PS5</h2><button class="icon-btn" data-close aria-label="Close"><svg class="ico" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></header>
+  <div class="sheet-body">
+    <div class="loaded" id="loadedSummary"></div>
+    <div class="progress" id="loadProgress" hidden><div class="bar"><i></i></div><span></span></div>
+    <details class="more">
+      <summary>Load options</summary>
+      <div class="fields">
+        <label>Context<select id="optCtx"><option>2048</option><option selected>4096</option><option>8192</option><option>16384</option><option>32768</option></select></label>
+        <label>KV cache<select id="optKv"><option value="q4_0" selected>q4_0 (small)</option><option value="q8_0">q8_0</option><option value="f16">f16 (exact)</option></select></label>
+      </div>
+    </details>
+    <h3>Language models</h3>
+    <div id="modelList" class="list"></div>
+    <p class="hint">Image, video and speech models load on first use from their own tab. Image and video take the whole GPU, so the chat model reloads afterwards.</p>
+  </div>
+</dialog>
+
+<!-- Settings sheet -->
+<dialog id="settingsSheet" class="sheet">
+  <header><h2>Settings</h2><button class="icon-btn" data-close aria-label="Close"><svg class="ico" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></header>
+  <div class="sheet-body">
+    <h3>Chat</h3>
+    <label class="block">System prompt<textarea id="setSystem" rows="3"></textarea></label>
+    <div class="fields">
+      <label>Max reply tokens<input id="setMaxTokens" type="number" min="16" max="4096" inputmode="numeric" /></label>
+      <label>Temperature<input id="setTemp" type="number" min="0" max="1.5" step="0.1" inputmode="decimal" /></label>
+    </div>
+    <h3>Voice</h3>
+    <label class="block">Voice persona<textarea id="setVoiceSystem" rows="3"></textarea></label>
+    <div class="fields">
+      <label>Voice model<select id="setVoiceLlm"></select></label>
+      <label>Max reply tokens<input id="setVoiceMax" type="number" min="16" max="1024" inputmode="numeric" /></label>
+    </div>
+    <div class="row wrap">
+      <button type="button" class="chip" id="setVoiceRefBtn">Clone a voice</button>
+      <input type="file" id="setVoiceRefFile" accept="audio/*" hidden />
+      <span class="hint grow" id="setVoiceRefInfo">Default voice</span>
+    </div>
+  </div>
+</dialog>
+
+<div id="toasts" aria-live="polite"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.6/purify.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="js/core.js"></script>
+<script src="js/chat.js"></script>
+<script src="js/voice.js"></script>
+<script src="js/media.js"></script>
+</body>
+</html>

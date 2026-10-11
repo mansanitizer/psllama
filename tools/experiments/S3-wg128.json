@@ -1,0 +1,18 @@
+{
+ "label": "dmmv S3-wg128",
+ "env": {
+  "GGML_VK_DMMV_WG": "large"
+ },
+ "models": [
+  {
+   "model": "startup"
+  },
+  {
+   "model": "gemma-3-27b-it-UD-IQ2_XXS.gguf"
+  }
+ ],
+ "variants": [
+  "greedy"
+ ],
+ "rounds": 2
+}

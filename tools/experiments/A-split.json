@@ -1,0 +1,15 @@
+{
+ "label": "A split probe",
+ "deploy": "timing2-20261009",
+ "env": {
+  "PS5_PROBE_LOGITS": 1
+ },
+ "models": [
+  {
+   "model": "Qwen3-4B-Q4_K_M.gguf"
+  },
+  {
+   "model": "Qwen3-30B-A3B-UD-IQ2_XXS.gguf"
+  }
+ ]
+}

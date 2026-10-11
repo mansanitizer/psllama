@@ -1,0 +1,15 @@
+{
+ "label": "B cpu output buffer",
+ "env": {
+  "PS5_PROBE_LOGITS": 1,
+  "PS5_OUTPUT_CPU_BUFFER": 1
+ },
+ "models": [
+  {
+   "model": "Qwen3-4B-Q4_K_M.gguf"
+  },
+  {
+   "model": "Qwen3-30B-A3B-UD-IQ2_XXS.gguf"
+  }
+ ]
+}

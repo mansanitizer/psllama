@@ -1,0 +1,242 @@
+[
+ {
+  "task": 0,
+  "instruction": "pick up the black bowl between the plate and the ramekin and place it on the plate",
+  "trial": 0,
+  "success": true,
+  "steps": 88,
+  "seconds": 104.8
+ },
+ {
+  "task": 0,
+  "instruction": "pick up the black bowl between the plate and the ramekin and place it on the plate",
+  "trial": 1,
+  "success": true,
+  "steps": 116,
+  "seconds": 136.8
+ },
+ {
+  "task": 0,
+  "instruction": "pick up the black bowl between the plate and the ramekin and place it on the plate",
+  "trial": 2,
+  "success": true,
+  "steps": 84,
+  "seconds": 99.4
+ },
+ {
+  "task": 1,
+  "instruction": "pick up the black bowl next to the ramekin and place it on the plate",
+  "trial": 0,
+  "success": true,
+  "steps": 113,
+  "seconds": 127.4
+ },
+ {
+  "task": 1,
+  "instruction": "pick up the black bowl next to the ramekin and place it on the plate",
+  "trial": 1,
+  "success": true,
+  "steps": 107,
+  "seconds": 121.9
+ },
+ {
+  "task": 1,
+  "instruction": "pick up the black bowl next to the ramekin and place it on the plate",
+  "trial": 2,
+  "success": true,
+  "steps": 135,
+  "seconds": 153.1
+ },
+ {
+  "task": 2,
+  "instruction": "pick up the black bowl from table center and place it on the plate",
+  "trial": 0,
+  "success": false,
+  "steps": 220,
+  "seconds": 248.8
+ },
+ {
+  "task": 2,
+  "instruction": "pick up the black bowl from table center and place it on the plate",
+  "trial": 1,
+  "success": true,
+  "steps": 112,
+  "seconds": 132.0
+ },
+ {
+  "task": 2,
+  "instruction": "pick up the black bowl from table center and place it on the plate",
+  "trial": 2,
+  "success": true,
+  "steps": 95,
+  "seconds": 107.7
+ },
+ {
+  "task": 3,
+  "instruction": "pick up the black bowl on the cookie box and place it on the plate",
+  "trial": 0,
+  "success": true,
+  "steps": 115,
+  "seconds": 131.5
+ },
+ {
+  "task": 3,
+  "instruction": "pick up the black bowl on the cookie box and place it on the plate",
+  "trial": 1,
+  "success": true,
+  "steps": 102,
+  "seconds": 194.5
+ },
+ {
+  "task": 3,
+  "instruction": "pick up the black bowl on the cookie box and place it on the plate",
+  "trial": 2,
+  "success": true,
+  "steps": 87,
+  "seconds": 98.6
+ },
+ {
+  "task": 4,
+  "instruction": "pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate",
+  "trial": 0,
+  "success": true,
+  "steps": 125,
+  "seconds": 227.9
+ },
+ {
+  "task": 4,
+  "instruction": "pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate",
+  "trial": 1,
+  "success": false,
+  "steps": 220,
+  "seconds": 263.3
+ },
+ {
+  "task": 4,
+  "instruction": "pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate",
+  "trial": 2,
+  "success": false,
+  "steps": 220,
+  "seconds": 265.6
+ },
+ {
+  "task": 5,
+  "instruction": "pick up the black bowl on the ramekin and place it on the plate",
+  "trial": 0,
+  "success": true,
+  "steps": 100,
+  "seconds": 181.9
+ },
+ {
+  "task": 5,
+  "instruction": "pick up the black bowl on the ramekin and place it on the plate",
+  "trial": 1,
+  "success": true,
+  "steps": 95,
+  "seconds": 144.7
+ },
+ {
+  "task": 5,
+  "instruction": "pick up the black bowl on the ramekin and place it on the plate",
+  "trial": 2,
+  "success": false,
+  "steps": 220,
+  "seconds": 295.7
+ },
+ {
+  "task": 6,
+  "instruction": "pick up the black bowl next to the cookie box and place it on the plate",
+  "trial": 0,
+  "success": true,
+  "steps": 106,
+  "seconds": 203.5
+ },
+ {
+  "task": 6,
+  "instruction": "pick up the black bowl next to the cookie box and place it on the plate",
+  "trial": 1,
+  "success": false,
+  "steps": 220,
+  "seconds": 339.4
+ },
+ {
+  "task": 6,
+  "instruction": "pick up the black bowl next to the cookie box and place it on the plate",
+  "trial": 2,
+  "success": true,
+  "steps": 106,
+  "seconds": 120.1
+ },
+ {
+  "task": 7,
+  "instruction": "pick up the black bowl on the stove and place it on the plate",
+  "trial": 0,
+  "success": true,
+  "steps": 127,
+  "seconds": 144.7
+ },
+ {
+  "task": 7,
+  "instruction": "pick up the black bowl on the stove and place it on the plate",
+  "trial": 1,
+  "success": true,
+  "steps": 114,
+  "seconds": 129.4
+ },
+ {
+  "task": 7,
+  "instruction": "pick up the black bowl on the stove and place it on the plate",
+  "trial": 2,
+  "success": true,
+  "steps": 134,
+  "seconds": 171.4
+ },
+ {
+  "task": 8,
+  "instruction": "pick up the black bowl next to the plate and place it on the plate",
+  "trial": 0,
+  "success": true,
+  "steps": 158,
+  "seconds": 182.0
+ },
+ {
+  "task": 8,
+  "instruction": "pick up the black bowl next to the plate and place it on the plate",
+  "trial": 1,
+  "success": false,
+  "steps": 220,
+  "seconds": 319.5
+ },
+ {
+  "task": 8,
+  "instruction": "pick up the black bowl next to the plate and place it on the plate",
+  "trial": 2,
+  "success": true,
+  "steps": 107,
+  "seconds": 200.1
+ },
+ {
+  "task": 9,
+  "instruction": "pick up the black bowl on the wooden cabinet and place it on the plate",
+  "trial": 0,
+  "success": true,
+  "steps": 119,
+  "seconds": 135.2
+ },
+ {
+  "task": 9,
+  "instruction": "pick up the black bowl on the wooden cabinet and place it on the plate",
+  "trial": 1,
+  "success": false,
+  "steps": 220,
+  "seconds": 352.5
+ },
+ {
+  "task": 9,
+  "instruction": "pick up the black bowl on the wooden cabinet and place it on the plate",
+  "trial": 2,
+  "success": true,
+  "steps": 125,
+  "seconds": 141.7
+ }
+]

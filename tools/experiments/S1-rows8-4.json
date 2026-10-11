@@ -1,0 +1,19 @@
+{
+ "label": "dmmv S1-rows8-4",
+ "env": {
+  "GGML_VK_RM_KQ": 4,
+  "GGML_VK_RM_IQ": 8
+ },
+ "models": [
+  {
+   "model": "startup"
+  },
+  {
+   "model": "gemma-3-27b-it-UD-IQ2_XXS.gguf"
+  }
+ ],
+ "variants": [
+  "greedy"
+ ],
+ "rounds": 2
+}

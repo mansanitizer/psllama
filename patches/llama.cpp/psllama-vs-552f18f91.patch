@@ -1,0 +1,410 @@
+diff --git a/common/common.cpp b/common/common.cpp
+index 401de1dc2..f0693fe7c 100644
+--- a/common/common.cpp
++++ b/common/common.cpp
+@@ -29,6 +29,11 @@
+ #include <unordered_set>
+ #include <vector>
+ 
++#if defined(__PROSPERO__)
++#include <pthread.h>
++extern "C" int scePthreadGetaffinity(pthread_t thread, uint64_t * mask);
++#endif
++
+ #if defined(__APPLE__) && defined(__MACH__)
+ #include <sys/types.h>
+ #include <sys/sysctl.h>
+@@ -199,6 +204,16 @@ static int cpu_count_math_cpus(int n_cpu) {
+  * Returns number of CPUs on system that are useful for math.
+  */
+ int32_t common_cpu_get_num_math() {
++#if defined(__PROSPERO__)
++    // PS5: a payload runs only on the cores its affinity mask allows (5 of 16 on
++    // firmware 13.60), and the console's own services share them. Keep two free:
++    // using all of them starves those services and the console shuts down.
++    uint64_t mask = 0;
++    if (scePthreadGetaffinity(pthread_self(), &mask) == 0 && mask != 0) {
++        return std::max(1, __builtin_popcountll(mask) - 2);
++    }
++    return 2;
++#endif
+ #if defined(__x86_64__) && defined(__linux__) && !defined(__ANDROID__)
+     int n_cpu = sysconf(_SC_NPROCESSORS_ONLN);
+     if (n_cpu < 1) {
+@@ -260,6 +275,11 @@ bool set_process_priority(enum ggml_sched_priority prio) {
+     if (prio == GGML_SCHED_PRIO_NORMAL) {
+         return true;
+     }
++#if defined(__PROSPERO__)
++    // PS5: what setpriority does to a payload is unknown. ggml lowers its own
++    // threads' Sony priority for --prio -1 and refuses to raise them.
++    return prio == GGML_SCHED_PRIO_LOW;
++#endif
+ 
+     int p = 0;
+     switch (prio) {
+diff --git a/common/common.h b/common/common.h
+index dcc5ec1ae..ee1c265dc 100644
+--- a/common/common.h
++++ b/common/common.h
+@@ -73,7 +73,11 @@ struct common_cpu_params {
+     bool     mask_valid                  = false;   // Default: any CPU
+     enum ggml_sched_priority  priority   = GGML_SCHED_PRIO_NORMAL;  // Scheduling prio : (0 - normal, 1 - medium, 2 - high, 3 - realtime)
+     bool     strict_cpu                  = false;   // Use strict CPU placement
++#if defined(__PROSPERO__)
++    uint32_t poll                        = 0;       // PS5: no busy-waiting, the few cores a payload gets are shared with the system
++#else
+     uint32_t poll                        = 50;      // Polling (busywait) level (0 - no polling, 100 - mostly polling)
++#endif
+ };
+ 
+ int32_t common_cpu_get_num_physical_cores();
+diff --git a/ggml/include/ggml-vulkan.h b/ggml/include/ggml-vulkan.h
+index ed5ea5f79..e4f19f7b2 100644
+--- a/ggml/include/ggml-vulkan.h
++++ b/ggml/include/ggml-vulkan.h
+@@ -17,6 +17,11 @@ GGML_BACKEND_API bool ggml_backend_is_vk(ggml_backend_t backend);
+ GGML_BACKEND_API int  ggml_backend_vk_get_device_count(void);
+ GGML_BACKEND_API void ggml_backend_vk_get_device_description(int device, char * description, size_t description_size);
+ GGML_BACKEND_API void ggml_backend_vk_get_device_memory(int device, size_t * free, size_t * total);
++// Returns Vulkan memory-budget extension values when available. `heap_size`
++// is physical heap size; `budget` and `usage` are the OS-recommended budget
++// and current heap usage, respectively. Returns false when unsupported.
++GGML_BACKEND_API bool ggml_backend_vk_get_device_memory_budget(
++    int device, size_t * budget, size_t * usage, size_t * heap_size);
+ 
+ GGML_BACKEND_API ggml_backend_buffer_type_t ggml_backend_vk_buffer_type(size_t dev_num);
+ // pinned host buffer for use with the CPU backend for faster copies between CPU and GPU
+diff --git a/ggml/src/ggml-cpu/ggml-cpu.c b/ggml/src/ggml-cpu/ggml-cpu.c
+index 8620c6c7a..dd1bbed04 100644
+--- a/ggml/src/ggml-cpu/ggml-cpu.c
++++ b/ggml/src/ggml-cpu/ggml-cpu.c
+@@ -2695,6 +2695,51 @@ static bool ggml_thread_apply_priority(int32_t prio) {
+     return true;
+ }
+ 
++#elif defined(__PROSPERO__)
++
++// PS5: Sony's thread calls stand in for the Linux ones. A payload may only run
++// on the CPUs in its affinity mask (0xea00 on firmware 13.60), shared with the
++// console's own services, so a mask outside it fails and priority is only ever
++// lowered. Sony priorities run 256 (first) to 767 (last); threads start at 700.
++int scePthreadSetaffinity(pthread_t thread, uint64_t mask);
++int scePthreadSetprio(pthread_t thread, int prio);
++
++static bool ggml_thread_apply_affinity(const bool * mask) {
++    uint64_t bits = 0;
++    for (int i = 0; i < 64 && i < GGML_MAX_N_THREADS; i++) {
++        if (mask[i]) {
++            bits |= 1ull << i;
++        }
++    }
++
++    const int err = scePthreadSetaffinity(pthread_self(), bits);
++    if (err != 0) {
++        fprintf(stderr, "warn: failed to set affinity mask 0x%llx : 0x%08x\n", (unsigned long long) bits, (unsigned) err);
++        return false;
++    }
++
++    return true;
++}
++
++static bool ggml_thread_apply_priority(int32_t prio) {
++    if (prio == GGML_SCHED_PRIO_NORMAL) {
++        return true;
++    }
++    if (prio != GGML_SCHED_PRIO_LOW) {
++        // Spinning workers above the system's own threads starve them.
++        fprintf(stderr, "warn: thread priority %d is not raised on the PS5\n", prio);
++        return false;
++    }
++
++    const int err = scePthreadSetprio(pthread_self(), 720);
++    if (err != 0) {
++        fprintf(stderr, "warn: failed to lower thread priority : 0x%08x\n", (unsigned) err);
++        return false;
++    }
++
++    return true;
++}
++
+ #else // unsupported platforms
+ 
+ static bool ggml_thread_apply_affinity(const bool * mask) {
+@@ -3296,9 +3341,11 @@ static void ggml_graph_compute_kickoff(struct ggml_threadpool * threadpool, int
+     if (threadpool->pause) {
+        // Update main thread prio and affinity to match the threadpool settings
+        ggml_thread_apply_priority(threadpool->prio);
++#if !defined(__PROSPERO__) // PS5: see ggml_threadpool_new_impl
+        if (ggml_thread_cpumask_is_valid(threadpool->workers[0].cpumask)) {
+            ggml_thread_apply_affinity(threadpool->workers[0].cpumask);
+        }
++#endif
+ 
+        // resume does cond broadcast
+        ggml_threadpool_resume_locked(threadpool);
+@@ -3375,9 +3422,14 @@ static struct ggml_threadpool * ggml_threadpool_new_impl(
+     if (!threadpool->pause) {
+         // Update main thread prio and affinity at the start, otherwise we'll do it in resume
+         ggml_thread_apply_priority(threadpool->prio);
++#if !defined(__PROSPERO__)
++        // PS5: the calling thread keeps the whole mask. Threads it starts later
++        // inherit its affinity, so pinning it to one CPU would pin them too
++        // (PS5SX2 hit this with a ticker thread, commit f9abb4a).
+         if (ggml_thread_cpumask_is_valid(threadpool->workers[0].cpumask)) {
+             ggml_thread_apply_affinity(threadpool->workers[0].cpumask);
+         }
++#endif
+     }
+ #endif // GGML_USE_OPENMP
+ 
+diff --git a/ggml/src/ggml-vulkan/ggml-vulkan-types.h b/ggml/src/ggml-vulkan/ggml-vulkan-types.h
+index ee50f51a3..93c4102da 100644
+--- a/ggml/src/ggml-vulkan/ggml-vulkan-types.h
++++ b/ggml/src/ggml-vulkan/ggml-vulkan-types.h
+@@ -985,6 +985,7 @@ struct vk_device_struct {
+     // [size_idx][kda] where size_idx: 0=d16, 1=d32, 2=d64, 3=d128
+     vk_pipeline pipeline_gated_delta_net[4][2];
+     vk_pipeline pipeline_ssm_scan_f32_d128;
++    vk_pipeline pipeline_ssm_scan_mamba1_f32;
+     vk_pipeline pipeline_ssm_scan_f32_d256;
+     vk_pipeline pipeline_ssm_conv_f32;
+     vk_pipeline pipeline_ssm_conv_silu_f32;
+diff --git a/ggml/src/ggml-vulkan/ggml-vulkan.cpp b/ggml/src/ggml-vulkan/ggml-vulkan.cpp
+index cbd3697ef..de1d9eb56 100644
+--- a/ggml/src/ggml-vulkan/ggml-vulkan.cpp
++++ b/ggml/src/ggml-vulkan/ggml-vulkan.cpp
+@@ -2886,6 +2886,10 @@ void ggml_vk_load_shaders(vk_device& device, vk_pipeline requested) {
+     // RDNA3: Static 4 rows for all types bench faster than the default
+     auto const &rm_id = [&](uint32_t rows) { return is_rdna3 ? 4u : rows; };
+     uint32_t rm_iq = 2 * rm_kq;
++    // PS5 tuning: rows per workgroup for k-quant and i-quant matrix-vector
++    // shaders (GGML_VK_RM_KQ, GGML_VK_RM_IQ), read once at device init.
++    if (const char * v = getenv("GGML_VK_RM_KQ")) { rm_kq = std::max(1, atoi(v)); rm_iq = 2 * rm_kq; }
++    if (const char * v = getenv("GGML_VK_RM_IQ")) { rm_iq = std::max(1, atoi(v)); }
+ 
+     const bool use_subgroups = device->subgroup_arithmetic;
+     // The Imagination proprietary compiler rejects the subgroup-only dequant mul_mat_vec
+@@ -3740,6 +3744,7 @@ void ggml_vk_load_shaders(vk_device& device, vk_pipeline requested) {
+         ggml_vk_create_pipeline(device, device->pipeline_ssm_scan_f32_d256, "ssm_scan_256_f32", ssm_scan_f32_len, ssm_scan_f32_data, "main", 8, sizeof(vk_op_ssm_scan_push_constants), {1, 1, 1}, {256, device->subgroup_size, 16}, 1, true, true);
+     }
+ 
++    ggml_vk_create_pipeline(device, device->pipeline_ssm_scan_mamba1_f32, "ssm_scan_mamba1_f32", ssm_scan_mamba1_f32_len, ssm_scan_mamba1_f32_data, "main", 8, sizeof(vk_op_ssm_scan_push_constants), {64, 1, 1}, {16}, 1);
+     ggml_vk_create_pipeline(device, device->pipeline_ssm_conv_f32,           "ssm_conv_f32",           ssm_conv_f32_len, ssm_conv_f32_data, "main", 4, sizeof(vk_op_ssm_conv_push_constants), {32, 16, 1}, {32, 16, 0, 0}, 1);
+     ggml_vk_create_pipeline(device, device->pipeline_ssm_conv_silu_f32,      "ssm_conv_silu_f32",      ssm_conv_f32_len, ssm_conv_f32_data, "main", 4, sizeof(vk_op_ssm_conv_push_constants), {32, 16, 1}, {32, 16, 0, 1}, 1);
+     ggml_vk_create_pipeline(device, device->pipeline_ssm_conv_bias_silu_f32, "ssm_conv_bias_silu_f32", ssm_conv_f32_len, ssm_conv_f32_data, "main", 4, sizeof(vk_op_ssm_conv_push_constants), {32, 16, 1}, {32, 16, 1, 1}, 1);
+@@ -5500,6 +5505,11 @@ vk_pipeline ggml_vk_get_to_fp16(ggml_backend_vk_context * ctx, ggml_type type) {
+     return ctx->device->pipeline_dequant[type];
+ }
+ 
++static bool ggml_vk_force_dmmv_large() {
++    static const bool force = getenv("GGML_VK_DMMV_WG") && strcmp(getenv("GGML_VK_DMMV_WG"), "large") == 0;
++    return force;
++}
++
+ static vk_pipeline ggml_vk_get_dequantize_mul_mat_vec(ggml_backend_vk_context * ctx, ggml_type a_type, ggml_type b_type, uint32_t num_cols, uint32_t m, uint32_t k) {
+     VK_LOG_DEBUG("ggml_vk_get_dequantize_mul_mat_vec()");
+     GGML_ASSERT(b_type == GGML_TYPE_F32 || b_type == GGML_TYPE_F16 || b_type == GGML_TYPE_Q8_1);
+@@ -5564,6 +5574,10 @@ static vk_pipeline ggml_vk_get_dequantize_mul_mat_vec(ggml_backend_vk_context *
+ 
+     // heuristic to choose workgroup size
+     uint32_t dmmv_wg = DMMV_WG_SIZE_SUBGROUP;
++    // PS5 tuning: GGML_VK_DMMV_WG=large forces the 4-subgroup workgroup.
++    if (ggml_vk_force_dmmv_large()) {
++        dmmv_wg = DMMV_WG_SIZE_LARGE;
++    }
+     if ((ctx->device->vendor_id == VK_VENDOR_ID_NVIDIA && ctx->device->architecture != vk_device_architecture::NVIDIA_PRE_TURING) || ctx->device->vendor_id == VK_VENDOR_ID_INTEL) {
+         // Prefer larger workgroups when M is small, to spread the work out more
+         // and keep more SMs busy.
+@@ -5652,6 +5666,10 @@ static vk_pipeline ggml_vk_get_dequantize_mul_mat_vec_id(ggml_backend_vk_context
+ 
+     // heuristic to choose workgroup size
+     uint32_t dmmv_wg = DMMV_WG_SIZE_SUBGROUP;
++    // PS5 tuning: GGML_VK_DMMV_WG=large forces the 4-subgroup workgroup.
++    if (ggml_vk_force_dmmv_large()) {
++        dmmv_wg = DMMV_WG_SIZE_LARGE;
++    }
+     if ((ctx->device->vendor_id == VK_VENDOR_ID_NVIDIA && ctx->device->architecture != vk_device_architecture::NVIDIA_PRE_TURING) || ctx->device->vendor_id == VK_VENDOR_ID_INTEL) {
+         // Prefer larger workgroups when M is small, to spread the work out more
+         // and keep more SMs busy.
+@@ -9135,6 +9153,9 @@ static vk_pipeline ggml_vk_op_get_pipeline(ggml_backend_vk_context * ctx, const
+     case GGML_OP_SSM_SCAN:
+         if (src0->type == GGML_TYPE_F32 && dst->type == GGML_TYPE_F32) {
+             const uint32_t d_state = src0->ne[0];
++            if (dst->src[3] && dst->src[3]->nb[1] != sizeof(float)) {
++                return d_state == 16 ? ctx->device->pipeline_ssm_scan_mamba1_f32 : nullptr;   // Mamba-1
++            }
+             if (d_state == 128) {
+                 return ctx->device->pipeline_ssm_scan_f32_d128;
+             } else if (d_state == 256) {
+@@ -10259,8 +10280,7 @@ void ggml_vk_ssm_scan(ggml_backend_vk_context * ctx, vk_context& subctx, ggml_te
+     const uint32_t n_tok = src1->ne[2];
+     const uint32_t n_seq = src1->ne[3];
+ 
+-    bool is_mamba2 = (src3->nb[1] == sizeof(float));
+-    GGML_ASSERT(is_mamba2);
++    const bool is_mamba2 = (src3->nb[1] == sizeof(float));
+ 
+     vk_pipeline pipeline = ggml_vk_op_get_pipeline(ctx, src0, src1, src2, dst, dst->op);
+     GGML_ASSERT(pipeline != nullptr);
+@@ -10289,11 +10309,15 @@ void ggml_vk_ssm_scan(ggml_backend_vk_context * ctx, vk_context& subctx, ggml_te
+ 
+     std::array<uint32_t, 3> elements;
+ 
+-    const uint32_t d_state = src0->ne[0];
+-    uint32_t num_subgroups = d_state / ctx->device->subgroup_size;
+-    const uint32_t num_workgroups_x = CEIL_DIV(n_head * head_dim, num_subgroups);
+-    const uint32_t num_workgroups_y = n_seq;
+-    elements = { num_workgroups_x, num_workgroups_y, 1 };
++    if (is_mamba2) {
++        const uint32_t d_state = src0->ne[0];
++        uint32_t num_subgroups = d_state / ctx->device->subgroup_size;
++        const uint32_t num_workgroups_x = CEIL_DIV(n_head * head_dim, num_subgroups);
++        const uint32_t num_workgroups_y = n_seq;
++        elements = { num_workgroups_x, num_workgroups_y, 1 };
++    } else {
++        elements = { n_head, n_seq, 1 };   // one invocation per channel; the pipeline divides by its 64-wide groups
++    }
+ 
+     ggml_vk_dispatch_pipeline(ctx, subctx, pipeline,
+         {src_buf[0], src_buf[1], src_buf[2], src_buf[3], src_buf[4], src_buf[5], src_buf[6], dst_buf},
+@@ -15168,7 +15192,12 @@ void ggml_backend_vk_get_device_memory(int device, size_t * free, size_t * total
+     vk::PhysicalDevice vkdev = vk_instance.instance.enumeratePhysicalDevices()[vk_instance.device_indices[device]];
+     vk::PhysicalDeviceMemoryBudgetPropertiesEXT budgetprops;
+     vk::PhysicalDeviceMemoryProperties2 memprops = {};
+-    const bool membudget_supported = vk_instance.device_supports_membudget[device];
++    // PS5: the RADV budget and usage numbers there only grow (across title
++    // restarts too), so free memory derived from them is wrong. With
++    // GGML_VK_IGNORE_MEMORY_BUDGET the whole heap is reported and callers rely
++    // on their own accounting (stable-diffusion.cpp tracks what it loads).
++    static const bool ignore_budget = getenv("GGML_VK_IGNORE_MEMORY_BUDGET") != nullptr;
++    const bool membudget_supported = vk_instance.device_supports_membudget[device] && !ignore_budget;
+     const bool is_integrated_gpu = vkdev.getProperties().deviceType == vk::PhysicalDeviceType::eIntegratedGpu;
+ 
+     if (membudget_supported) {
+@@ -15186,7 +15215,9 @@ void ggml_backend_vk_get_device_memory(int device, size_t * free, size_t * total
+             *total += heap.size;
+ 
+             if (membudget_supported && i < budgetprops.heapUsage.size()) {
+-                *free += budgetprops.heapBudget[i] - budgetprops.heapUsage[i];
++                const size_t heap_budget = budgetprops.heapBudget[i];
++                const size_t heap_usage = budgetprops.heapUsage[i];
++                *free += heap_budget > heap_usage ? heap_budget - heap_usage : 0;
+             } else {
+                 *free += heap.size;
+             }
+@@ -15194,6 +15225,34 @@ void ggml_backend_vk_get_device_memory(int device, size_t * free, size_t * total
+     }
+ }
+ 
++bool ggml_backend_vk_get_device_memory_budget(
++        int device, size_t * budget, size_t * usage, size_t * heap_size) {
++    GGML_ASSERT(device >= 0 && device < (int) vk_instance.device_indices.size());
++    GGML_ASSERT(device < (int) vk_instance.device_supports_membudget.size());
++
++    vk::PhysicalDevice vkdev = vk_instance.instance.enumeratePhysicalDevices()[vk_instance.device_indices[device]];
++    vk::PhysicalDeviceMemoryBudgetPropertiesEXT budgetprops;
++    vk::PhysicalDeviceMemoryProperties2 memprops = {};
++    const bool supported = vk_instance.device_supports_membudget[device];
++    const bool is_integrated_gpu = vkdev.getProperties().deviceType == vk::PhysicalDeviceType::eIntegratedGpu;
++    if (supported) memprops.pNext = &budgetprops;
++    vkdev.getMemoryProperties2(&memprops);
++
++    *budget = 0;
++    *usage = 0;
++    *heap_size = 0;
++    for (uint32_t i = 0; i < memprops.memoryProperties.memoryHeapCount; ++i) {
++        const vk::MemoryHeap & heap = memprops.memoryProperties.memoryHeaps[i];
++        if (!is_integrated_gpu && !(heap.flags & vk::MemoryHeapFlagBits::eDeviceLocal)) continue;
++        *heap_size += heap.size;
++        if (supported && i < budgetprops.heapUsage.size()) {
++            *budget += budgetprops.heapBudget[i];
++            *usage += budgetprops.heapUsage[i];
++        }
++    }
++    return supported;
++}
++
+ static vk::PhysicalDeviceType ggml_backend_vk_get_device_type(int device_idx) {
+     GGML_ASSERT(device_idx >= 0 && device_idx < (int) vk_instance.device_indices.size());
+ 
+@@ -15897,7 +15956,9 @@ static bool ggml_backend_vk_device_supports_op(ggml_backend_dev_t dev, const ggm
+ 
+                 bool is_mamba2 = (op->src[3] && op->src[3]->nb[1] == sizeof(float));
+                 if (!is_mamba2) {
+-                    return false;
++                    // Mamba-1 (ssm_scan_mamba1.comp): per-channel decay vector.
++                    return op->src[3] && d_state == 16 && head_dim == 1 && op->src[4]->ne[1] == 1 &&
++                           ggml_get_op_params_i32(op, 0) == 1;
+                 }
+ 
+                 if ((d_state != 128 && d_state != 256) || head_dim % 16 != 0) {
+@@ -16554,4 +16615,3 @@ void ggml_vk_debug_label::begin(vk_context & ctx, const std::string & name) {
+     subctx->debug_labels.push_back(name);
+     ggml_vk_cmd_label_begin(subctx->s->buffer->buf, subctx->debug_labels.back().c_str());
+ }
+-
+diff --git a/ggml/src/ggml-vulkan/vulkan-shaders/vulkan-shaders-gen.cpp b/ggml/src/ggml-vulkan/vulkan-shaders/vulkan-shaders-gen.cpp
+index e7e303e50..61c6bf64b 100644
+--- a/ggml/src/ggml-vulkan/vulkan-shaders/vulkan-shaders-gen.cpp
++++ b/ggml/src/ggml-vulkan/vulkan-shaders/vulkan-shaders-gen.cpp
+@@ -1229,6 +1229,7 @@ void process_shaders() {
+     string_to_spv("multi_add_rms_f32", "multi_add.comp", {{"A_TYPE", "float"}, {"B_TYPE", "float"}, {"D_TYPE", "float"}, {"FLOAT_TYPE", "float"}, {"ADD_RMS" , "1"}});
+ 
+     string_to_spv("ssm_scan_f32",          "ssm_scan.comp", {{"A_TYPE", "float"}});
++    string_to_spv("ssm_scan_mamba1_f32",   "ssm_scan_mamba1.comp", {{"A_TYPE", "float"}});
+     string_to_spv("ssm_scan_subgroup_f32", "ssm_scan.comp", {{"A_TYPE", "float"}, {"USE_SUBGROUP_ADD", "1"}});
+ 
+     string_to_spv("ssm_conv_f32", "ssm_conv.comp", {{"A_TYPE", "float"}});
+diff --git a/src/llama-context.cpp b/src/llama-context.cpp
+index 4f04db0ee..c987d264c 100644
+--- a/src/llama-context.cpp
++++ b/src/llama-context.cpp
+@@ -2195,7 +2195,10 @@ uint32_t llama_context::output_reserve(int32_t n_outputs) {
+         // try to use the host buffer of the device where the output tensor is allocated for faster transfer to system memory
+         auto * output_dev = model.dev_output();
+         auto * output_dev_host_buft = output_dev ? ggml_backend_dev_host_buffer_type(output_dev) : nullptr;
+-        if (output_dev_host_buft) {
++        // PS5: the CPU sampler reads every logit from this buffer each token; to
++        // compare the device host buffer against plain CPU memory, set
++        // PS5_OUTPUT_CPU_BUFFER to keep the outputs in CPU memory.
++        if (output_dev_host_buft && !getenv("PS5_OUTPUT_CPU_BUFFER")) {
+             buft = output_dev_host_buft;
+         }
+         buf_output.reset(ggml_backend_buft_alloc_buffer(buft, new_size));
+diff --git a/src/llama-sampler.cpp b/src/llama-sampler.cpp
+index b797c50be..25e6497c2 100644
+--- a/src/llama-sampler.cpp
++++ b/src/llama-sampler.cpp
+@@ -290,6 +290,13 @@ static void llama_sampler_temp_impl(llama_token_data_array * cur_p, float temp)
+     }
+ }
+ 
++// expf underflows to exactly 0 below about -103.97, so skip the call there. The
++// PS5 libm takes a slow path on underflow, and a low temperature pushes most of
++// a large vocabulary into it (~20 ms per token over 262K entries).
++static inline float exp_or_zero(float x) {
++    return x < -104.0f ? 0.0f : expf(x);
++}
++
+ static void llama_sampler_softmax_impl(llama_token_data_array * cur_p, bool do_sort) {
+     GGML_ASSERT(cur_p->size > 0);
+ 
+@@ -308,7 +315,7 @@ static void llama_sampler_softmax_impl(llama_token_data_array * cur_p, bool do_s
+     float cum_sum = 0.0f;
+ 
+     for (size_t i = 0; i < cur_p->size; ++i) {
+-        float p = expf(cur_p->data[i].logit - max_l);
++        float p = exp_or_zero(cur_p->data[i].logit - max_l);
+         cur_p->data[i].p = p;
+         cum_sum += p;
+     }
+@@ -1178,7 +1185,7 @@ static void llama_sampler_dist_apply(struct llama_sampler * smpl, llama_token_da
+     // apply softmax to obtain the probabilities
+     double sum_cum = 0.0f;
+     for (size_t i = 0; i < cur_p->size; ++i) {
+-        float p = expf(cur_p->data[i].logit - max_l);
++        float p = exp_or_zero(cur_p->data[i].logit - max_l);
+         cur_p->data[i].p = p;
+         sum_cum += p;
+     }
