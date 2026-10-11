@@ -229,7 +229,7 @@ With 30 episodes the uncertainty is roughly ±15 points, so this is consistent w
 
 ## Media
 
-Everything here was produced on the console. Video and audio play in the browser on the [project page](https://mansanitizer.github.io/psllama/#media); GitHub shows them as links.
+Everything here was produced on the console. Videos are shown as GIFs and audio as waveforms; clicking either plays the original on the [project page](https://mansanitizer.github.io/psllama/#media).
 
 ### OpenVLA driving a simulated arm (LIBERO-Spatial)
 
@@ -291,21 +291,29 @@ All comparison images, including Z-Image-Turbo at Q4_K, are in [`docs/media/comp
 
 ### Video
 
-| Clip | Model and settings | Watch | File |
-|---|---|---|---|
-| Fox, text to video | Wan 2.1 T2V 1.3B, 9 frames, 416×240 | [play](https://mansanitizer.github.io/psllama/video/ps5-wan2.1-1.3b-fox-9frames.mp4) | [`mp4`](docs/video/ps5-wan2.1-1.3b-fox-9frames.mp4) |
-| Fox, from a still image | HunyuanVideo 1.5 I2V, 17 frames, 416×224 | [play](https://mansanitizer.github.io/psllama/video/ps5-hunyuanvideo1.5-i2v-fox-17frames.mp4) | [`mp4`](docs/video/ps5-hunyuanvideo1.5-i2v-fox-17frames.mp4) |
-| Fox, from a still image | Wan 2.2 TI2V 5B, 17 frames (poor at this small size) | [play](https://mansanitizer.github.io/psllama/video/ps5-wan2.2-5b-i2v-fox-17frames.mp4) | [`mp4`](docs/video/ps5-wan2.2-5b-i2v-fox-17frames.mp4) |
-| Longer clip from the web interface | HunyuanVideo 1.5, 832×480 | [play](https://mansanitizer.github.io/psllama/video/ps5-clip.mp4) | [`mp4`](docs/video/ps5-clip.mp4) |
+Shown as GIFs, slowed to a third of real speed so the short clips are visible. Click one to play the original video.
+
+<table>
+  <tr>
+    <td align="center" valign="top" width="50%"><a href="https://mansanitizer.github.io/psllama/video/ps5-wan2.1-1.3b-fox-9frames.mp4"><img src="docs/video/ps5-wan2.1-1.3b-fox-9frames.gif" width="400"></a><br><sub>Wan 2.1 T2V 1.3B: text to video, 9 frames, 416×240, about 60 s to generate<br><a href="https://mansanitizer.github.io/psllama/video/ps5-wan2.1-1.3b-fox-9frames.mp4">play the video</a> · <a href="docs/video/ps5-wan2.1-1.3b-fox-9frames.mp4">mp4 file</a></sub></td>
+    <td align="center" valign="top" width="50%"><a href="https://mansanitizer.github.io/psllama/video/ps5-hunyuanvideo1.5-i2v-fox-17frames.mp4"><img src="docs/video/ps5-hunyuanvideo1.5-i2v-fox-17frames.gif" width="400"></a><br><sub>HunyuanVideo 1.5 I2V: from a still image, 17 frames, 416×224, 107 s to generate<br><a href="https://mansanitizer.github.io/psllama/video/ps5-hunyuanvideo1.5-i2v-fox-17frames.mp4">play the video</a> · <a href="docs/video/ps5-hunyuanvideo1.5-i2v-fox-17frames.mp4">mp4 file</a></sub></td>
+  </tr>
+  <tr>
+    <td align="center" valign="top" width="50%"><a href="https://mansanitizer.github.io/psllama/video/ps5-wan2.2-5b-i2v-fox-17frames.mp4"><img src="docs/video/ps5-wan2.2-5b-i2v-fox-17frames.gif" width="400"></a><br><sub>Wan 2.2 TI2V 5B: from a still image, 17 frames; poor at this small size<br><a href="https://mansanitizer.github.io/psllama/video/ps5-wan2.2-5b-i2v-fox-17frames.mp4">play the video</a> · <a href="docs/video/ps5-wan2.2-5b-i2v-fox-17frames.mp4">mp4 file</a></sub></td>
+    <td align="center" valign="top" width="50%"><a href="https://mansanitizer.github.io/psllama/video/ps5-clip.mp4"><img src="docs/video/ps5-clip.gif" width="400"></a><br><sub>A longer clip at 832×480, generated from the web interface (shown at real speed)<br><a href="https://mansanitizer.github.io/psllama/video/ps5-clip.mp4">play the video</a> · <a href="docs/video/ps5-clip.mp4">mp4 file</a></sub></td>
+  </tr>
+</table>
 
 ### Speech
 
-| Sample | Listen | File |
-|---|---|---|
-| Voice agent reply, turn 1 (question: the capital of France) | [play](https://mansanitizer.github.io/psllama/media/voice-test/turn1-reply.wav) | [`wav`](docs/media/voice-test/turn1-reply.wav) |
-| Voice agent reply, turn 2, using the conversation so far | [play](https://mansanitizer.github.io/psllama/media/voice-test/turn2-reply.wav) | [`wav`](docs/media/voice-test/turn2-reply.wav) |
-| Qwen3-TTS, default voice | [play](https://mansanitizer.github.io/psllama/audio/ps5-qwen3-tts-default-voice.wav) | [`wav`](docs/audio/ps5-qwen3-tts-default-voice.wav) |
-| Qwen3-TTS copying a reference voice | [play](https://mansanitizer.github.io/psllama/audio/ps5-qwen3-tts-cloned-voice.wav) | [`wav`](docs/audio/ps5-qwen3-tts-cloned-voice.wav) |
+GitHub cannot play audio inside a README, so each sample is shown as its waveform. Click one to hear it.
+
+<table>
+  <tr><td width="45%"><b>Voice agent, turn 1.</b> The spoken reply to “What is the capital of France?”</td><td><a href="https://mansanitizer.github.io/psllama/media/voice-test/turn1-reply.wav"><img src="docs/media/waveforms/voice-turn1.png" width="420"></a><br><sub><a href="https://mansanitizer.github.io/psllama/media/voice-test/turn1-reply.wav">▶ play</a> · <a href="docs/media/voice-test/turn1-reply.wav">wav file</a></sub></td></tr>
+  <tr><td width="45%"><b>Voice agent, turn 2.</b> A follow-up answered using the conversation so far</td><td><a href="https://mansanitizer.github.io/psllama/media/voice-test/turn2-reply.wav"><img src="docs/media/waveforms/voice-turn2.png" width="420"></a><br><sub><a href="https://mansanitizer.github.io/psllama/media/voice-test/turn2-reply.wav">▶ play</a> · <a href="docs/media/voice-test/turn2-reply.wav">wav file</a></sub></td></tr>
+  <tr><td width="45%"><b>Text to speech,</b> default voice (Qwen3-TTS 1.7B)</td><td><a href="https://mansanitizer.github.io/psllama/audio/ps5-qwen3-tts-default-voice.wav"><img src="docs/media/waveforms/tts-default.png" width="420"></a><br><sub><a href="https://mansanitizer.github.io/psllama/audio/ps5-qwen3-tts-default-voice.wav">▶ play</a> · <a href="docs/audio/ps5-qwen3-tts-default-voice.wav">wav file</a></sub></td></tr>
+  <tr><td width="45%"><b>Text to speech,</b> copying a reference voice</td><td><a href="https://mansanitizer.github.io/psllama/audio/ps5-qwen3-tts-cloned-voice.wav"><img src="docs/media/waveforms/tts-cloned.png" width="420"></a><br><sub><a href="https://mansanitizer.github.io/psllama/audio/ps5-qwen3-tts-cloned-voice.wav">▶ play</a> · <a href="docs/audio/ps5-qwen3-tts-cloned-voice.wav">wav file</a></sub></td></tr>
+</table>
 
 ### A general vision model choosing the arm's steps
 
