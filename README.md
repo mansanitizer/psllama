@@ -359,7 +359,9 @@ A selection; the full log is in [`docs/FINDINGS.md`](docs/FINDINGS.md).
 
 ## Credits and license
 
-- [PS5_Vulkan](https://github.com/mihawk-99/PS5_Vulkan) for the Vulkan driver port and build tooling this depends on.
+- [mihawk-99](https://github.com/mihawk-99) for [PS5_Vulkan](https://github.com/mihawk-99/PS5_Vulkan): the Mesa RADV port, link recipe and build tooling. PSllama could not exist without it; everything here runs on that driver.
+- [PS5LM](https://github.com/cobanov/PS5LM) by cobanov, which showed that a language model can run on a PS5 and was the starting point for this work.
+- [ProsperoAI](https://github.com/blackbearreloaded/ProsperoAI) by blackbearreloaded, whose PS5 runtime and Stable Diffusion work we studied, and whose SD-Turbo package was the first image model run here.
 - [llama.cpp](https://github.com/ggml-org/llama.cpp), [stable-diffusion.cpp](https://github.com/leejet/stable-diffusion.cpp) and [whisper.cpp](https://github.com/ggml-org/whisper.cpp) for the inference engines.
 - [OpenVLA](https://github.com/openvla/openvla) and [LIBERO](https://github.com/Lifelong-Robot-Learning/LIBERO) for the robot policy and benchmark.
 - The PS5 homebrew community for the loader, FTP, shell, log and ShadowMount payloads.
