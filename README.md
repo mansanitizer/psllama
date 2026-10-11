@@ -6,9 +6,15 @@ PSllama is a homebrew PS5 application that runs language, vision, speech, image,
 
 > **Status: experimental.** Tested on one console (CFI-1208B, firmware 13.60). It needs a jailbroken PS5 and is not affiliated with or endorsed by Sony. Every number below was measured on that console.
 
-A longer version of this page, with images, clips and audio, is in [`docs/index.html`](docs/index.html). The dated working log is [`docs/FINDINGS.md`](docs/FINDINGS.md).
+**Project page with playable video and audio: [mansanitizer.github.io/psllama](https://mansanitizer.github.io/psllama/)**. The dated working log is [`docs/FINDINGS.md`](docs/FINDINGS.md).
+
+<p>
+  <img src="docs/media/psllama-logo.png" alt="PSllama icon" width="120">
+</p>
 
 ![OpenVLA on the PS5 completing a LIBERO task](docs/media/libero-openvla/task0-trial0-ok.gif)
+
+*OpenVLA running on the console, driving a simulated arm: "pick up the black bowl between the plate and the ramekin and place it on the plate".*
 
 ## What works
 
@@ -220,6 +226,92 @@ With 30 episodes the uncertainty is roughly ±15 points, so this is consistent w
 | Video | HunyuanVideo 1.5 I2V, 33 frames, 832×480 | 36 minutes |
 | Speech to text | Whisper large-v3-turbo, 8 s of audio | 0.79 s |
 | Text to speech | Qwen3-TTS 1.7B, 7 s of speech | 3.5 s |
+
+## Media
+
+Everything here was produced on the console. Video and audio play in the browser on the [project page](https://mansanitizer.github.io/psllama/#media); GitHub shows them as links.
+
+### OpenVLA driving a simulated arm (LIBERO-Spatial)
+
+The first try of each of the ten tasks. Each instruction ends "...and place it on the plate".
+
+<table>
+  <tr>
+    <td align="center" valign="top" width="160"><img src="docs/media/libero-openvla/task0-trial0-ok.gif" width="160"><br><sub>Task 0: bowl between the plate and the ramekin. Completed.</sub></td>
+    <td align="center" valign="top" width="160"><img src="docs/media/libero-openvla/task1-trial0-ok.gif" width="160"><br><sub>Task 1: bowl next to the ramekin. Completed.</sub></td>
+    <td align="center" valign="top" width="160"><img src="docs/media/libero-openvla/task2-trial0-fail.gif" width="160"><br><sub>Task 2: bowl from the table centre. <b>Failed</b> (ran to the step limit).</sub></td>
+    <td align="center" valign="top" width="160"><img src="docs/media/libero-openvla/task3-trial0-ok.gif" width="160"><br><sub>Task 3: bowl on the cookie box. Completed.</sub></td>
+    <td align="center" valign="top" width="160"><img src="docs/media/libero-openvla/task4-trial0-ok.gif" width="160"><br><sub>Task 4: bowl in the top drawer of the cabinet. Completed.</sub></td>
+  </tr>
+  <tr>
+    <td align="center" valign="top" width="160"><img src="docs/media/libero-openvla/task5-trial0-ok.gif" width="160"><br><sub>Task 5: bowl on the ramekin. Completed.</sub></td>
+    <td align="center" valign="top" width="160"><img src="docs/media/libero-openvla/task6-trial0-ok.gif" width="160"><br><sub>Task 6: bowl next to the cookie box. Completed.</sub></td>
+    <td align="center" valign="top" width="160"><img src="docs/media/libero-openvla/task7-trial0-ok.gif" width="160"><br><sub>Task 7: bowl on the stove. Completed.</sub></td>
+    <td align="center" valign="top" width="160"><img src="docs/media/libero-openvla/task8-trial0-ok.gif" width="160"><br><sub>Task 8: bowl next to the plate. Completed.</sub></td>
+    <td align="center" valign="top" width="160"><img src="docs/media/libero-openvla/task9-trial0-ok.gif" width="160"><br><sub>Task 9: bowl on the wooden cabinet. Completed.</sub></td>
+  </tr>
+</table>
+
+### Image generation
+
+The same prompt on four models.
+
+<table>
+  <tr>
+    <td align="center" valign="top" width="200"><img src="docs/media/compare-20261010/sd-turbo-fp16-fox.png" width="200"><br><sub>SD-Turbo, 512×512, 1 step, 0.9 s</sub></td>
+    <td align="center" valign="top" width="200"><img src="docs/media/compare-20261010/flux2-klein-4b-fox.png" width="200"><br><sub>FLUX.2-klein 4B, 768×768, 4 steps, 17.6 s</sub></td>
+    <td align="center" valign="top" width="200"><img src="docs/media/compare-20261010/z-image-turbo-fox.png" width="200"><br><sub>Z-Image-Turbo, 768×768, 8 steps, 42 s</sub></td>
+    <td align="center" valign="top" width="200"><img src="docs/media/compare-20261010/ernie-image-turbo-fox.png" width="200"><br><sub>ERNIE-Image-Turbo, 768×768, 8 steps, 66 s</sub></td>
+  </tr>
+  <tr>
+    <td align="center" valign="top" width="200"><img src="docs/media/compare-20261010/sd-turbo-fp16-ramen.png" width="200"><br><sub>SD-Turbo</sub></td>
+    <td align="center" valign="top" width="200"><img src="docs/media/compare-20261010/flux2-klein-4b-ramen.png" width="200"><br><sub>FLUX.2-klein 4B</sub></td>
+    <td align="center" valign="top" width="200"><img src="docs/media/compare-20261010/z-image-turbo-ramen.png" width="200"><br><sub>Z-Image-Turbo</sub></td>
+    <td align="center" valign="top" width="200"><img src="docs/media/compare-20261010/ernie-image-turbo-ramen.png" width="200"><br><sub>ERNIE-Image-Turbo</sub></td>
+  </tr>
+  <tr>
+    <td align="center" valign="top" width="200"><img src="docs/media/compare-20261010/sd-turbo-fp16-astronaut.png" width="200"><br><sub>SD-Turbo</sub></td>
+    <td align="center" valign="top" width="200"><img src="docs/media/compare-20261010/flux2-klein-4b-astronaut.png" width="200"><br><sub>FLUX.2-klein 4B</sub></td>
+    <td align="center" valign="top" width="200"><img src="docs/media/compare-20261010/z-image-turbo-astronaut.png" width="200"><br><sub>Z-Image-Turbo</sub></td>
+    <td align="center" valign="top" width="200"><img src="docs/media/compare-20261010/ernie-image-turbo-astronaut.png" width="200"><br><sub>ERNIE-Image-Turbo</sub></td>
+  </tr>
+</table>
+
+All comparison images, including Z-Image-Turbo at Q4_K, are in [`docs/media/compare-20261010/`](docs/media/compare-20261010/) with their [timings](docs/media/compare-20261010/timings.json).
+
+### Image editing (FLUX.2-klein)
+
+<table>
+  <tr>
+    <td align="center" valign="top" width="260"><img src="docs/media/edit-test/1-base.png" width="260"><br><sub>Generated base image</sub></td>
+    <td align="center" valign="top" width="260"><img src="docs/media/edit-test/2-ref-edit.png" width="260"><br><sub>Reference edit: “the same fox wearing a blue knitted scarf, in a neon-lit city street at night”, 13.8 s</sub></td>
+    <td align="center" valign="top" width="260"><img src="docs/media/edit-test/3-img2img.png" width="260"><br><sub>Image to image at strength 0.6 with a “watercolor” prompt; it barely changes on a 4-step model</sub></td>
+  </tr>
+</table>
+
+### Video
+
+| Clip | Model and settings | Watch | File |
+|---|---|---|---|
+| Fox, text to video | Wan 2.1 T2V 1.3B, 9 frames, 416×240 | [play](https://mansanitizer.github.io/psllama/video/ps5-wan2.1-1.3b-fox-9frames.mp4) | [`mp4`](docs/video/ps5-wan2.1-1.3b-fox-9frames.mp4) |
+| Fox, from a still image | HunyuanVideo 1.5 I2V, 17 frames, 416×224 | [play](https://mansanitizer.github.io/psllama/video/ps5-hunyuanvideo1.5-i2v-fox-17frames.mp4) | [`mp4`](docs/video/ps5-hunyuanvideo1.5-i2v-fox-17frames.mp4) |
+| Fox, from a still image | Wan 2.2 TI2V 5B, 17 frames (poor at this small size) | [play](https://mansanitizer.github.io/psllama/video/ps5-wan2.2-5b-i2v-fox-17frames.mp4) | [`mp4`](docs/video/ps5-wan2.2-5b-i2v-fox-17frames.mp4) |
+| Longer clip from the web interface | HunyuanVideo 1.5, 832×480 | [play](https://mansanitizer.github.io/psllama/video/ps5-clip.mp4) | [`mp4`](docs/video/ps5-clip.mp4) |
+
+### Speech
+
+| Sample | Listen | File |
+|---|---|---|
+| Voice agent reply, turn 1 (question: the capital of France) | [play](https://mansanitizer.github.io/psllama/media/voice-test/turn1-reply.wav) | [`wav`](docs/media/voice-test/turn1-reply.wav) |
+| Voice agent reply, turn 2, using the conversation so far | [play](https://mansanitizer.github.io/psllama/media/voice-test/turn2-reply.wav) | [`wav`](docs/media/voice-test/turn2-reply.wav) |
+| Qwen3-TTS, default voice | [play](https://mansanitizer.github.io/psllama/audio/ps5-qwen3-tts-default-voice.wav) | [`wav`](docs/audio/ps5-qwen3-tts-default-voice.wav) |
+| Qwen3-TTS copying a reference voice | [play](https://mansanitizer.github.io/psllama/audio/ps5-qwen3-tts-cloned-voice.wav) | [`wav`](docs/audio/ps5-qwen3-tts-cloned-voice.wav) |
+
+### A general vision model choosing the arm's steps
+
+![Gemma 3 12B choosing pick and place steps for a simulated arm](docs/media/sim-blocks-gemma3/episode-05.gif)
+
+*Gemma 3 12B on the console looks at each frame and picks a command; the arm motion for each command is scripted. See [`examples/vlm-arm/`](examples/vlm-arm/).*
 
 ## Findings
 
